@@ -1,3 +1,5 @@
 .env
 node_modules/
 .DS_Store
+.codex-tmp/
+assets/portfolio-hero.png
