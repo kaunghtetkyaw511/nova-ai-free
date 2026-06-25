@@ -18,7 +18,7 @@ https://kaunghtetkyaw511.github.io/nova-ai-free/
 
 ## Privacy and cost
 
-AI prompts are processed on the user's device after the model is downloaded. There is no API key or per-message charge. The first model load requires internet access and roughly 350 MB of device storage.
+AI prompts are processed on the user's device after the model is downloaded. There is no API key or per-message charge. The first model load requires internet access and roughly 190 MB on iPhone or 350 MB on desktop/Android.
 
 ## Local development
 

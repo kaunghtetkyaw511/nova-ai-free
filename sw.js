@@ -1,10 +1,11 @@
-const CACHE_NAME = "nova-ai-shell-v5";
+const CACHE_NAME = "nova-ai-shell-v6";
 const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./script.js",
   "./local-ai.js",
+  "./safe.html",
   "./manifest.webmanifest",
   "./assets/nova-icon.svg",
   "./assets/nova-icon-192.png",

@@ -1,26 +1,58 @@
 const WEBLLM_VERSION = "0.2.84";
 const WEBLLM_URL = `https://esm.run/@mlc-ai/web-llm@${WEBLLM_VERSION}`;
 const MODEL_ID = "Qwen3-0.6B-q4f16_1-MLC";
+const TRANSFORMERS_URL = "https://esm.run/@huggingface/transformers@3.8.1";
+const LITE_MODEL_ID = "onnx-community/SmolLM2-135M-Instruct-ONNX";
 
 let engine = null;
+let liteGenerator = null;
 let loadingPromise = null;
+
+function isAppleMobile() {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function useLiteBackend() {
+  return isAppleMobile() || new URLSearchParams(location.search).has("lite");
+}
 
 export function getLocalAiInfo() {
   return {
-    model: MODEL_ID,
-    loaded: Boolean(engine),
-    hasWebGPU: Boolean(navigator.gpu),
+    model: useLiteBackend() ? LITE_MODEL_ID : MODEL_ID,
+    loaded: Boolean(engine || liteGenerator),
+    backend: useLiteBackend() ? "lite-cpu" : "webgpu",
   };
 }
 
 export async function loadLocalModel(onProgress = () => {}) {
-  if (engine) return engine;
+  if (engine || liteGenerator) return engine || liteGenerator;
   if (loadingPromise) return loadingPromise;
-  if (!navigator.gpu) {
-    throw new Error("This device does not expose WebGPU. Update Chrome/Edge/Safari or try a newer device.");
-  }
 
   loadingPromise = (async () => {
+    if (useLiteBackend()) {
+      onProgress({ progress: 0.01, text: "Loading iPhone-safe AI engine…" });
+      const transformers = await import(TRANSFORMERS_URL);
+      liteGenerator = await transformers.pipeline("text-generation", LITE_MODEL_ID, {
+        dtype: "q4",
+        progress_callback: (report) => {
+          const progress = Number(report.progress || 0);
+          const file = report.file ? ` ${report.file}` : "";
+          onProgress({
+            progress: progress > 1 ? progress / 100 : progress,
+            text: report.status === "ready"
+              ? "iPhone-safe AI is ready"
+              : `${report.status || "Downloading"}${file}`,
+          });
+        },
+      });
+      onProgress({ progress: 1, text: "iPhone-safe AI is ready" });
+      return liteGenerator;
+    }
+
+    if (!navigator.gpu) {
+      throw new Error("WebGPU is unavailable. Open this app in a newer browser or device.");
+    }
     onProgress({ progress: 0.01, text: "Loading the free AI engine…" });
     const webllm = await import(WEBLLM_URL);
     engine = await webllm.CreateMLCEngine(MODEL_ID, {
@@ -46,6 +78,33 @@ export async function loadLocalModel(onProgress = () => {}) {
 
 export async function generateLocalText({ prompt, instruction, temperature = 0.65, onProgress, onToken }) {
   const localEngine = await loadLocalModel(onProgress);
+  if (useLiteBackend()) {
+    const messages = [
+      {
+        role: "system",
+        content: `${instruction || "You are a helpful assistant."}
+Reply in the same language as the user unless they ask for another language.
+Be concise and honest about uncertainty.`,
+      },
+      { role: "user", content: prompt },
+    ];
+    const result = await localEngine(messages, {
+      max_new_tokens: 256,
+      do_sample: temperature > 0,
+      temperature: Math.max(0.1, temperature),
+      top_p: 0.9,
+    });
+    const generated = result?.[0]?.generated_text;
+    let text = "";
+    if (Array.isArray(generated)) {
+      text = generated[generated.length - 1]?.content || "";
+    } else {
+      text = String(generated || "").replace(prompt, "").trim();
+    }
+    onToken?.(text, text);
+    return text.trim();
+  }
+
   const stream = await localEngine.chat.completions.create({
     messages: [
       {

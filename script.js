@@ -108,6 +108,11 @@ let photoMono = false;
 let videoUrl = null;
 const historyKey = "nova-ai-activity";
 
+function isAppleMobile() {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
 function getLocalAiModule() {
   if (!localAiModulePromise) localAiModulePromise = import("./local-ai.js");
   return localAiModulePromise;
@@ -231,7 +236,9 @@ function setModelReady() {
   $("#localModelBar").classList.remove("error");
   $("#localModelProgress").style.width = "100%";
   $("#localModelStatus").textContent = "Free local AI is ready";
-  $("#localModelDetail").textContent = "Runs privately on this device with no per-message fee.";
+  $("#localModelDetail").textContent = isAppleMobile()
+    ? "Lightweight iPhone-safe AI is running privately on this device."
+    : "Runs privately on this device with no per-message fee.";
   $("#apiStatus").classList.add("connected");
   $("#apiStatus").classList.remove("loading", "error");
   $("#apiStatus").lastChild.textContent = " Free AI ready";
@@ -270,13 +277,11 @@ async function loadFreeModel() {
 
 async function checkLocalAi() {
   $("#apiStatus").classList.add("connected");
-  $("#apiStatus").lastChild.textContent = navigator.gpu ? " Free local mode" : " Free tools mode";
-  try {
-    const localAi = await getLocalAiModule();
-    const info = localAi.getLocalAiInfo();
-    if (info.loaded) setModelReady();
-  } catch {
-    // The module is loaded lazily again when the user starts the model.
+  $("#apiStatus").lastChild.textContent = isAppleMobile() ? " iPhone safe mode" : " Free local mode";
+  if (isAppleMobile()) {
+    $("#localModelStatus").textContent = "iPhone-safe AI ready to download";
+    $("#localModelDetail").textContent = "Uses a smaller model to avoid Safari memory crashes (about 190 MB).";
+    $("#loadModelButton").textContent = "Load Lite AI";
   }
 }
 
@@ -746,7 +751,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   window.addEventListener("appinstalled", () => showToast("Nova AI installed"));
 
-  if ("serviceWorker" in navigator && location.protocol !== "file:") {
+  if (!isAppleMobile() && "serviceWorker" in navigator && location.protocol !== "file:") {
     navigator.serviceWorker.register("./sw.js").catch(() => {});
   }
 
