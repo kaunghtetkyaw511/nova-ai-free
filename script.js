@@ -10,6 +10,13 @@ const toolConfig = {
     copy: "Ask a question, plan a project, improve an idea, or solve a difficult problem.",
     placeholder: "Ask anything...",
     instruction: "You are a helpful, precise creative and productivity copilot.",
+    my: {
+      title: "AI အကူအညီ",
+      subtitle: "နေ့စဉ်စဉ်းစားဖော်",
+      welcome: "ဘာလုပ်ကြမလဲ?",
+      copy: "မေးခွန်းမေးပါ၊ အစီအစဉ်ဆွဲပါ၊ အကြံဉာဏ်တိုးတက်အောင်လုပ်ပါ။",
+      placeholder: "ဘာမဆို မေးပါ...",
+    },
   },
   research: {
     title: "Deep Research",
@@ -20,6 +27,14 @@ const toolConfig = {
     placeholder: "Research a market, topic, product, or question...",
     instruction: "Research the user's topic using only the source excerpts included with the prompt. Give a concise, well-organized report. Clearly distinguish sourced facts from inference.",
     research: true,
+    academic: true,
+    my: {
+      title: "နက်ရှိုင်းစွာ ရှာဖွေခြင်း",
+      subtitle: "အခမဲ့ public sources များဖြင့် ရှာဖွေခြင်း",
+      welcome: "ဘာအကြောင်း ရှာပေးရမလဲ?",
+      copy: "အကြောင်းအရာတစ်ခုကို ရေးပါ။ Sources နဲ့ citation ပါတဲ့ အဖြေကို ဖန်တီးပေးမယ်။",
+      placeholder: "အကြောင်းအရာ၊ ဈေးကွက်၊ ထုတ်ကုန် သို့မဟုတ် မေးခွန်းကို ရှာပါ...",
+    },
   },
   writer: {
     title: "Smart Writer",
@@ -29,6 +44,7 @@ const toolConfig = {
     copy: "Give me the topic, audience, tone, and format—or simply paste your rough notes.",
     placeholder: "Write a YouTube script about...",
     instruction: "You are an expert writer. Produce polished, audience-aware writing in the requested tone and format.",
+    my: { title: "စာရေးအကူ", subtitle: "အကြမ်းမှ အချောထိ", welcome: "ဘာရေးပေးရမလဲ?", copy: "ခေါင်းစဉ်၊ ဖတ်မယ့်သူ၊ အသံနေအသံထားနဲ့ ပုံစံကို ပြောပါ။", placeholder: "ဒီအကြောင်း YouTube script ရေးပါ..." },
   },
   translate: {
     title: "Translator",
@@ -38,6 +54,7 @@ const toolConfig = {
     copy: "Paste your text and name the target language. Tone and meaning will be preserved.",
     placeholder: "Translate this into Burmese...",
     instruction: "Translate accurately and naturally. Preserve meaning, tone, formatting, names, and cultural context.",
+    my: { title: "ဘာသာပြန်", subtitle: "သဘာဝကျပြီး context သိတဲ့ ဘာသာပြန်", welcome: "ဘာသာပြန်ပေးရမလဲ?", copy: "စာသားနဲ့ ပြန်လိုတဲ့ဘာသာစကားကို ရေးပါ။", placeholder: "ဒီစာကို မြန်မာလို ပြန်ပေးပါ..." },
   },
   "image-prompt": {
     title: "Image Prompt Lab",
@@ -47,6 +64,7 @@ const toolConfig = {
     copy: "I’ll expand it into a detailed prompt with composition, lighting, lens, palette, and style.",
     placeholder: "A futuristic Yangon at night...",
     instruction: "Turn the user's concept into an excellent image generation prompt. Include subject, composition, lighting, palette, camera, texture, mood, and negative constraints.",
+    my: { title: "ပုံ Prompt စက်ရုံ", subtitle: "အတွေးမှ production prompt ထိ", welcome: "စိတ်ကူးထဲကပုံကို ဖော်ပြပါ", copy: "Composition, lighting, camera နဲ့ style ပါတဲ့ prompt ပြည့်စုံအောင်လုပ်ပေးမယ်။", placeholder: "ညအချိန် အနာဂတ်ရန်ကုန်မြို့..." },
   },
   transcribe: {
     title: "Transcript Helper",
@@ -56,6 +74,7 @@ const toolConfig = {
     copy: "I can clean filler words, add chapters, summarize, and extract highlights or action items.",
     placeholder: "Paste transcript text here...",
     instruction: "Clean and structure the transcript. Preserve meaning and flag unclear portions rather than inventing content.",
+    my: { title: "Transcript အကူ", subtitle: "ရှင်းလင်း၊ စီစဉ်၊ အချက်ထုတ်", welcome: "Transcript ထည့်ပါ", copy: "စကားပိုတွေရှင်း၊ အခန်းခွဲ၊ အကျဉ်းချုပ်နဲ့ အရေးကြီးအချက်တွေ ထုတ်ပေးမယ်။", placeholder: "Transcript စာသားထည့်ပါ..." },
   },
   "voice-script": {
     title: "Voice Script",
@@ -65,6 +84,7 @@ const toolConfig = {
     copy: "Share a topic, duration, audience, and mood for a natural voiceover or podcast script.",
     placeholder: "Write a 60-second voiceover...",
     instruction: "Write natural spoken-language scripts with good rhythm, breath, emphasis, and timing.",
+    my: { title: "အသံ Script", subtitle: "ပြောရလွယ်တဲ့ သဘာဝစာသား", welcome: "ဘယ်ဇာတ်လမ်းလဲ?", copy: "ခေါင်းစဉ်၊ ကြာချိန်၊ ပရိသတ်နဲ့ mood ကို ပြောပါ။", placeholder: "စက္ကန့် ၆၀ voiceover ရေးပါ..." },
   },
   code: {
     title: "Code Assistant",
@@ -74,6 +94,7 @@ const toolConfig = {
     copy: "Describe the feature or paste code and an error. Include the language or framework if relevant.",
     placeholder: "Debug this JavaScript...",
     instruction: "You are a senior software engineer. Give correct, secure, maintainable code and concise explanations.",
+    my: { title: "Code အကူ", subtitle: "တည်ဆောက်၊ ရှင်းပြ၊ bug ပြင်", welcome: "ဘာတည်ဆောက်နေလဲ?", copy: "Feature ကိုရှင်းပြပါ သို့မဟုတ် code နဲ့ error ကို ထည့်ပါ။", placeholder: "ဒီ JavaScript bug ကိုပြင်ပါ..." },
   },
   summarize: {
     title: "Summarizer",
@@ -83,6 +104,7 @@ const toolConfig = {
     copy: "Choose any long text. I’ll extract the main ideas, decisions, risks, and next actions.",
     placeholder: "Paste an article, report, or notes...",
     instruction: "Summarize the input faithfully. Extract key points, decisions, risks, facts, and action items without inventing details.",
+    my: { title: "အကျဉ်းချုပ်", subtitle: "ဖတ်ချိန်နည်း၊ နားလည်မှုများ", welcome: "အကျဉ်းချုပ်မယ့်စာ ထည့်ပါ", copy: "အဓိကအချက်၊ ဆုံးဖြတ်ချက်၊ အန္တရာယ်နဲ့ လုပ်ဆောင်စရာတွေ ထုတ်ပေးမယ်။", placeholder: "ဆောင်းပါး၊ report သို့မဟုတ် note ထည့်ပါ..." },
   },
   ideas: {
     title: "Idea Generator",
@@ -92,6 +114,62 @@ const toolConfig = {
     copy: "Tell me your goal and constraints. I’ll generate distinct, useful directions—not generic filler.",
     placeholder: "Give me campaign ideas for...",
     instruction: "Generate original, diverse, practical ideas. Explain each idea's angle and a concrete first step.",
+    my: { title: "အကြံဉာဏ်စက်", subtitle: "အသုံးဝင်တဲ့ ဖန်တီးမှုလမ်းကြောင်းများ", welcome: "ဘာအတွက် အကြံဉာဏ်လိုလဲ?", copy: "ရည်မှန်းချက်နဲ့ ကန့်သတ်ချက်တွေ ပြောပါ။ ကွဲပြားတဲ့ အကြံတွေ ထုတ်ပေးမယ်။", placeholder: "ဒီ campaign အတွက် အကြံပေးပါ..." },
+  },
+  world: {
+    title: "World Knowledge",
+    subtitle: "Multilingual facts with live public sources",
+    icon: "globe-2",
+    welcome: "What do you want to know?",
+    copy: "Ask about people, places, science, history, culture, technology, or current public knowledge.",
+    placeholder: "Ask a world knowledge question...",
+    instruction: "Answer from the supplied public sources. Cite source numbers inline. If the evidence is incomplete or conflicting, say so clearly. Never invent facts.",
+    research: true,
+    knowledge: true,
+    my: { title: "ကမ္ဘာ့ဗဟုသုတ", subtitle: "ဘာသာစုံ live sources များဖြင့် အချက်အလက်", welcome: "ဘာသိချင်လဲ?", copy: "လူ၊ နေရာ၊ သိပ္ပံ၊ သမိုင်း၊ ယဉ်ကျေးမှုနဲ့ နည်းပညာအကြောင်း မေးပါ။", placeholder: "ကမ္ဘာ့ဗဟုသုတ မေးခွန်းမေးပါ..." },
+  },
+  daily: {
+    title: "Daily Assistant",
+    subtitle: "Your practical everyday helper",
+    icon: "calendar-check-2",
+    welcome: "How can I make today easier?",
+    copy: "Plan your day, compare choices, draft messages, organize tasks, and think through problems.",
+    placeholder: "Help me plan, decide, write, or organize...",
+    instruction: "Be a practical daily assistant. Give concise, realistic steps and clearly state assumptions.",
+    my: { title: "နေ့စဉ်အကူ", subtitle: "လက်တွေ့ကျတဲ့ နေ့စဉ်အကူအညီ", welcome: "ဒီနေ့ ဘာကိုလွယ်ကူအောင်လုပ်ပေးရမလဲ?", copy: "နေ့စဉ်အစီအစဉ်၊ ရွေးချယ်မှု၊ message ရေးခြင်းနဲ့ အလုပ်စီစဉ်ခြင်းကို ကူညီပေးမယ်။", placeholder: "အစီအစဉ်ဆွဲ၊ ဆုံးဖြတ်၊ ရေးသား သို့မဟုတ် စီစဉ်ပေးပါ..." },
+  },
+  planner: {
+    title: "Smart Planner",
+    subtitle: "Goals into realistic steps",
+    icon: "list-checks",
+    welcome: "What do you want to achieve?",
+    copy: "Share your goal, deadline, available time, and constraints.",
+    placeholder: "Plan this goal step by step...",
+    instruction: "Create a realistic plan with priorities, milestones, time estimates, risks, and the next three actions.",
+    my: { title: "စမတ်အစီအစဉ်", subtitle: "ရည်မှန်းချက်မှ လက်တွေ့အဆင့်များ", welcome: "ဘာအောင်မြင်ချင်လဲ?", copy: "ရည်မှန်းချက်၊ deadline၊ အချိန်နဲ့ ကန့်သတ်ချက်တွေ ပြောပါ။", placeholder: "ဒီရည်မှန်းချက်ကို အဆင့်လိုက်စီစဉ်ပေးပါ..." },
+  },
+  study: {
+    title: "Study Tutor",
+    subtitle: "Learn clearly with examples and sources",
+    icon: "graduation-cap",
+    welcome: "What should we learn?",
+    copy: "Choose a topic and your current level. I can teach, quiz, and explain mistakes.",
+    placeholder: "Teach me this topic from the beginning...",
+    instruction: "Teach step by step at the user's level. Use simple examples, check understanding, and rely on supplied sources for factual claims.",
+    knowledge: true,
+    academic: true,
+    my: { title: "သင်ကြားရေးအကူ", subtitle: "ဥပမာနဲ့ sources များဖြင့် ရှင်းလင်းစွာသင်ယူ", welcome: "ဘာသင်ချင်လဲ?", copy: "အကြောင်းအရာနဲ့ လက်ရှိအဆင့်ကို ပြောပါ။ သင်၊ quiz မေး၊ အမှားရှင်းပေးမယ်။", placeholder: "ဒီအကြောင်းကို အခြေခံကနေ သင်ပေးပါ..." },
+  },
+  calculator: {
+    title: "Quick Calculator",
+    subtitle: "Instant arithmetic and clear steps",
+    icon: "calculator",
+    welcome: "What should I calculate?",
+    copy: "Enter arithmetic such as (1250 × 3) + 480 or ask for an explanation.",
+    placeholder: "Example: (1250 * 3) + 480",
+    instruction: "Explain calculations clearly and check arithmetic carefully.",
+    calculator: true,
+    my: { title: "အမြန်တွက်စက်", subtitle: "ချက်ချင်းတွက်ပြီး အဆင့်ရှင်းပြ", welcome: "ဘာတွက်ပေးရမလဲ?", copy: "(1250 × 3) + 480 လိုတွက်ချက်မှု ထည့်ပါ။", placeholder: "ဥပမာ: (1250 * 3) + 480" },
   },
   photo: { title: "Photo Editor", subtitle: "Fast browser-based image editing", icon: "image-plus", workspace: "photo" },
   video: { title: "Video Studio", subtitle: "Trim and export video clips", icon: "clapperboard", workspace: "video" },
@@ -107,6 +185,137 @@ let photoRotation = 0;
 let photoMono = false;
 let videoUrl = null;
 const historyKey = "nova-ai-activity";
+const languageNames = {
+  auto: "the user's language",
+  my: "Myanmar (Burmese)",
+  en: "English",
+  th: "Thai",
+  zh: "Chinese",
+  ja: "Japanese",
+  ko: "Korean",
+  hi: "Hindi",
+  es: "Spanish",
+  fr: "French",
+  de: "German",
+  ar: "Arabic",
+  ru: "Russian",
+};
+const wikipediaLanguages = new Set(["my", "en", "th", "zh", "ja", "ko", "hi", "es", "fr", "de", "ar", "ru"]);
+const uiCopy = {
+  en: {
+    heroKicker: "Your creative intelligence",
+    heroTitle: "One workspace.<br><em>Every superpower.</em>",
+    heroCopy: "Research, write, edit photos, cut videos, and turn rough ideas into finished work—without jumping between ten different apps.",
+    startCreating: "Start creating",
+    exploreTools: "Explore all tools",
+    toolkit: "AI TOOLKIT",
+    toolsHeading: "What will you create today?",
+    toolsIntro: "Everything you need, gathered into one focused workspace.",
+    answerLanguage: "Answer language",
+    knowledgeMode: "World knowledge",
+    searchPlaceholder: "Search AI tools...",
+    newProject: "New project",
+    navDiscover: "Discover",
+    navChat: "AI Chat",
+    navResearch: "Deep Research",
+    navRecent: "Recent",
+    navPhoto: "Photo Editor",
+    navVideo: "Video Editor",
+    navAudio: "Audio Tools",
+    categories: ["All tools", "Daily use", "Creative", "Research", "Writing", "Audio", "Developer"],
+    localAiTitle: "Free local AI",
+    localAiCopy: "Runs privately on your device. No API key, subscription, or usage bill.",
+  },
+  my: {
+    heroKicker: "သင့်ရဲ့ ဖန်တီးမှုဉာဏ်ရည်",
+    heroTitle: "Workspace တစ်ခုတည်း။<br><em>အစွမ်းအားအားလုံး။</em>",
+    heroCopy: "ရှာဖွေ၊ စာရေး၊ ဓာတ်ပုံပြင်၊ ဗီဒီယိုဖြတ်ပြီး အကြမ်းအတွေးကို ပြီးပြည့်စုံတဲ့အလုပ်အဖြစ် ပြောင်းပါ။",
+    startCreating: "စတင်ဖန်တီးမယ်",
+    exploreTools: "Tools အားလုံးကြည့်မယ်",
+    toolkit: "AI ကိရိယာစုံ",
+    toolsHeading: "ဒီနေ့ ဘာဖန်တီးမလဲ?",
+    toolsIntro: "လိုအပ်တဲ့ကိရိယာအားလုံးကို workspace တစ်ခုထဲမှာ စုထားပါတယ်။",
+    answerLanguage: "အဖြေဘာသာစကား",
+    knowledgeMode: "ကမ္ဘာ့ဗဟုသုတ",
+    searchPlaceholder: "AI tools ရှာပါ...",
+    newProject: "အသစ်စမယ်",
+    navDiscover: "ရှာဖွေကြည့်ရန်",
+    navChat: "AI စကားပြော",
+    navResearch: "နက်ရှိုင်းစွာရှာ",
+    navRecent: "မကြာသေးမီ",
+    navPhoto: "ဓာတ်ပုံပြင်",
+    navVideo: "ဗီဒီယိုပြင်",
+    navAudio: "အသံကိရိယာ",
+    categories: ["Tools အားလုံး", "နေ့စဉ်သုံး", "ဖန်တီးမှု", "ရှာဖွေမှု", "စာရေး", "အသံ", "Developer"],
+    localAiTitle: "အခမဲ့ Local AI",
+    localAiCopy: "သင့်စက်ထဲမှာသာ အလုပ်လုပ်ပါတယ်။ API key နဲ့ ငွေပေးချေမှု မလိုပါ။",
+  },
+};
+
+function getUiLanguage() {
+  return localStorage.getItem("nova-ui-language") || "en";
+}
+
+function getResponseLanguage() {
+  return $("#responseLanguageSelect")?.value || localStorage.getItem("nova-response-language") || "my";
+}
+
+function localizedTool(config) {
+  return getUiLanguage() === "my" && config.my ? { ...config, ...config.my } : config;
+}
+
+function applyUiLanguage(language) {
+  const copy = uiCopy[language] || uiCopy.en;
+  document.documentElement.lang = language;
+  $("#heroKicker").textContent = copy.heroKicker;
+  $("#heroTitle").innerHTML = copy.heroTitle;
+  $("#heroCopy").textContent = copy.heroCopy;
+  $("#startCreatingLabel").textContent = copy.startCreating;
+  $("#exploreToolsLabel").textContent = copy.exploreTools;
+  $("#toolkitEyebrow").textContent = copy.toolkit;
+  $("#toolsHeading").textContent = copy.toolsHeading;
+  $("#toolsIntro").textContent = copy.toolsIntro;
+  $("#answerLanguageLabel").textContent = copy.answerLanguage;
+  $("#knowledgeModeLabel").textContent = copy.knowledgeMode;
+  $("#globalSearch").placeholder = copy.searchPlaceholder;
+  $(".primary-small span").textContent = copy.newProject;
+  $('[data-view="home"] span').textContent = copy.navDiscover;
+  $('[data-open-tool="chat"] span').textContent = copy.navChat;
+  $('[data-open-tool="research"] span').textContent = copy.navResearch;
+  $('[data-view="recent"] span').textContent = copy.navRecent;
+  $('[data-open-tool="photo"] span').textContent = copy.navPhoto;
+  $('[data-open-tool="video"] span').textContent = copy.navVideo;
+  $('[data-filter-category="audio"] span').textContent = copy.navAudio;
+  $$("#categoryTabs button").forEach((button, index) => {
+    if (copy.categories[index]) button.textContent = copy.categories[index];
+  });
+  $(".side-upgrade strong").textContent = copy.localAiTitle;
+  $(".side-upgrade p").textContent = copy.localAiCopy;
+
+  $$("[data-tool]").forEach((card) => {
+    const config = localizedTool(toolConfig[card.dataset.tool] || {});
+    const title = $("strong", card);
+    const description = $("small", card);
+    if (title && config.title) title.textContent = config.title;
+    if (description && config.copy) description.textContent = config.copy;
+  });
+
+  if ($("#toolDrawer").classList.contains("open") && toolConfig[currentTool]) {
+    refreshOpenToolLanguage();
+  }
+  renderIcons();
+}
+
+function refreshOpenToolLanguage() {
+  const config = localizedTool(toolConfig[currentTool] || toolConfig.chat);
+  $("#drawerTitle").textContent = config.title;
+  $("#drawerSubtitle").textContent = config.subtitle;
+  $("#aiPrompt").placeholder = config.placeholder || "";
+  const welcomeTitle = $("#welcomeTitle");
+  const welcomeCopy = $("#welcomeCopy");
+  if (welcomeTitle) welcomeTitle.textContent = config.welcome || "";
+  if (welcomeCopy) welcomeCopy.textContent = config.copy || "";
+}
 
 function isAppleMobile() {
   return /iPhone|iPad|iPod/i.test(navigator.userAgent)
@@ -172,7 +381,8 @@ function showView(view) {
 }
 
 function openTool(tool) {
-  const config = toolConfig[tool] || toolConfig.chat;
+  const baseConfig = toolConfig[tool] || toolConfig.chat;
+  const config = localizedTool(baseConfig);
   currentTool = tool;
   $("#drawerTitle").textContent = config.title;
   $("#drawerSubtitle").textContent = config.subtitle;
@@ -183,7 +393,11 @@ function openTool(tool) {
 
   if (!config.workspace) {
     $("#aiPrompt").placeholder = config.placeholder;
-    $("#modeLabel").innerHTML = `<i data-lucide="${config.research ? "library-big" : "cpu"}"></i> ${config.research ? "Free source research" : "Free local AI"}`;
+    const knowledgeEnabled = baseConfig.research || baseConfig.knowledge;
+    const modeText = getUiLanguage() === "my"
+      ? (knowledgeEnabled ? "Sources ပါ AI" : "အခမဲ့ Local AI")
+      : (knowledgeEnabled ? "Source-backed AI" : "Free local AI");
+    $("#modeLabel").innerHTML = `<i data-lucide="${knowledgeEnabled ? "library-big" : "cpu"}"></i> ${modeText}`;
     $("#chatStream").innerHTML = `<div class="welcome-message">
       <span><i data-lucide="${config.icon}"></i></span>
       <h3 id="welcomeTitle">${escapeHtml(config.welcome)}</h3>
@@ -306,38 +520,65 @@ async function submitAi(event) {
   const prompt = input.value.trim();
   if (!prompt) return;
   const config = toolConfig[currentTool] || toolConfig.chat;
+  const responseLanguage = getResponseLanguage();
   addMessage("user", prompt);
   input.value = "";
   addActivity(currentTool, prompt);
-  const loading = addMessage("assistant", config.research ? "Gathering free public sources" : "Preparing free local AI", true);
+
+  if (config.calculator) {
+    const calculation = calculateExpression(prompt);
+    if (calculation) {
+      const label = responseLanguage === "my" ? "အဖြေ" : "Result";
+      addMessage("assistant", `${label}: ${calculation.expression} = ${calculation.result}`);
+      return;
+    }
+  }
+
+  const knowledgeMode = $("#knowledgeModeSelect").value;
+  const shouldSearch = knowledgeMode !== "off"
+    && (config.research || config.knowledge || knowledgeMode === "always" || looksLikeKnowledgeQuestion(prompt));
+  const loadingText = shouldSearch
+    ? (getUiLanguage() === "my" ? "ကမ္ဘာ့ဗဟုသုတ sources များ ရှာနေသည်" : "Searching world knowledge sources")
+    : (getUiLanguage() === "my" ? "Local AI ပြင်ဆင်နေသည်" : "Preparing free local AI");
+  const loading = addMessage("assistant", loadingText, true);
 
   try {
-    let finalPrompt = prompt;
+    const dateContext = new Intl.DateTimeFormat(responseLanguage === "my" ? "my-MM" : undefined, {
+      dateStyle: "full",
+      timeStyle: "short",
+    }).format(new Date());
+    let finalPrompt = `${prompt}
+
+Current local date and time: ${dateContext}.`;
     let sources = [];
-    if (config.research) {
-      sources = await collectResearchSources(prompt);
+    if (shouldSearch) {
+      sources = await collectKnowledgeSources(prompt, responseLanguage, config.academic);
       if (sources.length) {
-        finalPrompt = `${prompt}
+        finalPrompt = `${finalPrompt}
 
 Use these source excerpts:
-${sources.map((source, index) => `[${index + 1}] ${source.title}
+${sources.map((source, index) => `[${index + 1}] ${source.title} (${source.provider})
 URL: ${source.url}
 Excerpt: ${source.excerpt}`).join("\n\n")}
 
-Base factual claims on these excerpts and cite them inline as [1], [2], etc.`;
+Base factual claims on these excerpts and cite them inline as [1], [2], etc.
+If the sources do not support an answer, say that you do not have enough reliable information.`;
       } else {
-        finalPrompt = `${prompt}
+        finalPrompt = `${finalPrompt}
 
-No public source excerpts were available. Give a research plan and clearly label anything that is general knowledge or inference.`;
+No public source excerpts were available. Clearly label uncertainty and do not invent facts.`;
       }
     }
 
     const localAi = await getLocalAiModule();
     const content = $(".message-content", loading);
+    const languageInstruction = buildLanguageInstruction(responseLanguage, prompt);
     const text = await localAi.generateLocalText({
       prompt: finalPrompt,
-      instruction: config.instruction,
-      temperature: config.research ? 0.2 : 0.65,
+      instruction: `${config.instruction}
+${languageInstruction}
+Never pretend to know something you cannot support. Correct the user's false premise politely when needed.`,
+      temperature: shouldSearch ? 0.2 : 0.65,
       onProgress: (report) => {
         updateModelProgress(report);
         content.textContent = report.text || "Loading free local AI…";
@@ -349,7 +590,12 @@ No public source excerpts were available. Give a research plan and clearly label
       },
     });
     setModelReady();
-    content.textContent = text || "The local model returned no text.";
+    const fallbackText = !text && sources.length
+      ? await buildSourceFallback(sources, responseLanguage, prompt)
+      : "";
+    content.textContent = text || fallbackText || (getUiLanguage() === "my"
+      ? "လုံလောက်တဲ့ ယုံကြည်စိတ်ချရသော အချက်အလက် မရသေးပါ။"
+      : "I do not have enough reliable information to answer that yet.");
     loading.classList.remove("loading");
     appendSources(loading, sources);
   } catch (error) {
@@ -361,85 +607,237 @@ No public source excerpts were available. Give a research plan and clearly label
   $("#chatStream").scrollTop = $("#chatStream").scrollHeight;
 }
 
-async function collectResearchSources(query) {
+function buildLanguageInstruction(language, prompt) {
+  if (language === "auto") {
+    return "Reply in the same language and writing system used by the user.";
+  }
+  if (language === "my") {
+    return "Always answer in natural Myanmar (Burmese) Unicode. Use clear everyday Burmese, preserve necessary English technical terms in parentheses, and never use Zawgyi encoding.";
+  }
+  return `Always answer in ${languageNames[language] || "the selected language"}.`;
+}
+
+function looksLikeKnowledgeQuestion(prompt) {
+  const text = prompt.trim().toLowerCase();
+  return /^(who|what|when|where|why|how|which|tell me|explain|define|history|latest|today|news)\b/.test(text)
+    || /(ဘယ်သူ|ဘာလဲ|ဘာကြောင့်|ဘယ်မှာ|ဘယ်တော့|ဘယ်လို|ရှင်းပြ|သမိုင်း|ယနေ့|နောက်ဆုံး|သတင်း)/.test(prompt)
+    || text.endsWith("?")
+    || prompt.endsWith("လဲ")
+    || prompt.endsWith("လား");
+}
+
+function calculateExpression(input) {
+  const myanmarDigits = "၀၁၂၃၄၅၆၇၈၉";
+  let expression = input.replace(/[၀-၉]/g, (digit) => String(myanmarDigits.indexOf(digit)));
+  expression = expression
+    .replace(/[×xX]/g, "*")
+    .replace(/÷/g, "/")
+    .replace(/−/g, "-")
+    .replace(/,/g, "")
+    .replace(/^(calculate|တွက်ပါ|တွက်ပေးပါ)\s*[:：]?/i, "")
+    .trim();
+  if (!expression || expression.length > 120 || !/^[\d\s+\-*/%().]+$/.test(expression)) return null;
+  try {
+    const result = Function(`"use strict"; return (${expression})`)();
+    if (!Number.isFinite(result)) return null;
+    return {
+      expression,
+      result: Number.isInteger(result) ? String(result) : String(Number(result.toFixed(10))),
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function collectKnowledgeSources(query, responseLanguage = "en", includeAcademic = false) {
   const sources = [];
   const normalizedQuery = query
-    .replace(/^(what|who|where|when|why|how|is|are|was|were|tell me about|research)\s+/i, "")
+    .replace(/^(what|who|where|when|why|how|is|are|was|were|tell me about|research|explain)\s+/i, "")
+    .replace(/^(ဘယ်သူ|ဘာလဲ|ဘာကြောင့်|ဘယ်မှာ|ဘယ်တော့|ဘယ်လို|ရှင်းပြပါ|ရှာပေးပါ)\s*/i, "")
     .replace(/[?!.,]+$/g, "")
     .trim() || query;
-  const wikiSearchUrl = new URL("https://en.wikipedia.org/w/api.php");
-  wikiSearchUrl.search = new URLSearchParams({
+
+  const detectedLanguage = /[\u1000-\u109f]/.test(query) ? "my" : "en";
+  const preferredLanguage = wikipediaLanguages.has(responseLanguage) && responseLanguage !== "auto"
+    ? responseLanguage
+    : detectedLanguage;
+  let englishQuery = normalizedQuery;
+  if (preferredLanguage !== "en" || /[^\u0000-\u024f]/.test(normalizedQuery)) {
+    englishQuery = await translateKnowledgeQuery(normalizedQuery, preferredLanguage, "en");
+  }
+  const wikipediaTasks = [fetchWikipediaSources(normalizedQuery, preferredLanguage, 3)];
+  if (preferredLanguage !== "en") wikipediaTasks.push(fetchWikipediaSources(englishQuery, "en", 3));
+  const tasks = [
+    ...wikipediaTasks,
+    fetchWikidataSources(normalizedQuery, preferredLanguage),
+  ];
+  if (preferredLanguage !== "en") tasks.push(fetchWikidataSources(englishQuery, "en"));
+  if (includeAcademic) tasks.push(fetchAcademicSources(englishQuery));
+  if (/(latest|today|news|ယနေ့|နောက်ဆုံး|သတင်း)/i.test(query)) tasks.push(fetchWikinewsSources(englishQuery));
+
+  const results = await Promise.allSettled(tasks);
+  results.forEach((result) => {
+    if (result.status === "fulfilled") sources.push(...result.value);
+  });
+
+  const seen = new Set();
+  return sources.filter((source) => {
+    const key = `${source.title}|${source.url}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return Boolean(source.excerpt);
+  }).slice(0, 6);
+}
+
+async function translateKnowledgeQuery(query, sourceLanguage, targetLanguage) {
+  try {
+    const url = new URL("https://api.mymemory.translated.net/get");
+    url.search = new URLSearchParams({
+      q: query.slice(0, 450),
+      langpair: `${sourceLanguage}|${targetLanguage}`,
+    });
+    const response = await fetch(url);
+    if (!response.ok) return query;
+    const data = await response.json();
+    const translated = String(data.responseData?.translatedText || "").trim();
+    return translated && !translated.includes("MYMEMORY WARNING") ? translated : query;
+  } catch {
+    return query;
+  }
+}
+
+async function buildSourceFallback(sources, responseLanguage, originalPrompt) {
+  const topSources = sources.slice(0, 2);
+  let summary = topSources.map((source, index) =>
+    `[${index + 1}] ${source.title}: ${source.excerpt}`
+  ).join("\n\n").slice(0, 850);
+  const targetLanguage = responseLanguage === "auto"
+    ? (/[\u1000-\u109f]/.test(originalPrompt) ? "my" : "en")
+    : responseLanguage;
+  if (targetLanguage !== "en") {
+    summary = await translateKnowledgeQuery(summary, "en", targetLanguage);
+  }
+  const prefix = targetLanguage === "my"
+    ? "ရရှိထားတဲ့ ယုံကြည်စိတ်ချရသော sources များအရ—"
+    : "Based on the reliable sources found—";
+  return `${prefix}\n\n${summary}`;
+}
+
+async function fetchWikipediaSources(query, language, limit) {
+  const base = `https://${language}.wikipedia.org/w/api.php`;
+  const searchUrl = new URL(base);
+  searchUrl.search = new URLSearchParams({
     action: "query",
     list: "search",
-    srsearch: normalizedQuery,
-    srlimit: "5",
+    srsearch: query,
+    srlimit: String(limit),
     format: "json",
     origin: "*",
   });
+  const searchResponse = await fetch(searchUrl);
+  if (!searchResponse.ok) return [];
+  const searchData = await searchResponse.json();
+  const searchItems = searchData.query?.search || [];
+  const pageIds = searchItems.map((item) => item.pageid).join("|");
+  if (!pageIds) return [];
 
-  const crossrefUrl = new URL("https://api.crossref.org/works");
-  crossrefUrl.search = new URLSearchParams({
+  const extractUrl = new URL(base);
+  extractUrl.search = new URLSearchParams({
+    action: "query",
+    pageids: pageIds,
+    prop: "extracts|info",
+    exintro: "1",
+    explaintext: "1",
+    exsentences: "5",
+    inprop: "url",
+    format: "json",
+    origin: "*",
+  });
+  const response = await fetch(extractUrl);
+  if (!response.ok) return [];
+  const data = await response.json();
+  const pages = data.query?.pages || {};
+  return searchItems.map((result) => pages[result.pageid]).filter((page) => page?.extract).map((page) => ({
+    title: page.title,
+    url: page.fullurl || `https://${language}.wikipedia.org/?curid=${page.pageid}`,
+    excerpt: page.extract.slice(0, 650),
+    provider: `${language.toUpperCase()} Wikipedia`,
+  }));
+}
+
+async function fetchWikidataSources(query, language) {
+  const url = new URL("https://www.wikidata.org/w/api.php");
+  url.search = new URLSearchParams({
+    action: "wbsearchentities",
+    search: query,
+    language,
+    uselang: language,
+    type: "item",
+    limit: "4",
+    format: "json",
+    origin: "*",
+  });
+  const response = await fetch(url);
+  if (!response.ok) return [];
+  const data = await response.json();
+  return (data.search || []).filter((item) => item.description).map((item) => ({
+    title: item.label,
+    url: item.concepturi || `https://www.wikidata.org/wiki/${item.id}`,
+    excerpt: [item.description, ...(item.aliases || []).slice(0, 3)].join(" — ").slice(0, 500),
+    provider: "Wikidata",
+  }));
+}
+
+async function fetchAcademicSources(query) {
+  const url = new URL("https://api.crossref.org/works");
+  url.search = new URLSearchParams({
     query,
     rows: "3",
     select: "title,author,published,URL,abstract",
   });
-
-  const [wikiSearchResult, crossrefResult] = await Promise.allSettled([
-    fetch(wikiSearchUrl).then((response) => response.ok ? response.json() : Promise.reject()),
-    fetch(crossrefUrl).then((response) => response.ok ? response.json() : Promise.reject()),
-  ]);
-
-  if (wikiSearchResult.status === "fulfilled") {
-    const searchItems = wikiSearchResult.value.query?.search || [];
-    const pageIds = searchItems.map((item) => item.pageid).join("|");
-    if (pageIds) {
-      try {
-        const wikiExtractUrl = new URL("https://en.wikipedia.org/w/api.php");
-        wikiExtractUrl.search = new URLSearchParams({
-          action: "query",
-          pageids: pageIds,
-          prop: "extracts|info",
-          exintro: "1",
-          explaintext: "1",
-          exsentences: "7",
-          inprop: "url",
-          format: "json",
-          origin: "*",
-        });
-        const response = await fetch(wikiExtractUrl);
-        const data = response.ok ? await response.json() : {};
-        const pages = data.query?.pages || {};
-        searchItems.forEach((result) => {
-          const page = pages[result.pageid];
-          if (!page?.extract) return;
-          sources.push({
-            title: page.title,
-            url: page.fullurl || `https://en.wikipedia.org/?curid=${page.pageid}`,
-            excerpt: page.extract.slice(0, 1100),
-          });
-        });
-      } catch {
-        // Academic sources below can still provide a useful research result.
-      }
-    }
-  }
-
-  if (crossrefResult.status === "fulfilled") {
-    (crossrefResult.value.message?.items || []).forEach((item) => {
+  const response = await fetch(url);
+  if (!response.ok) return [];
+  const data = await response.json();
+  return (data.message?.items || []).map((item) => {
       const title = item.title?.[0];
-      if (!title || !item.URL) return;
+      if (!title || !item.URL) return null;
       const year = item.published?.["date-parts"]?.[0]?.[0];
       const author = item.author?.slice(0, 3).map((person) => [person.given, person.family].filter(Boolean).join(" ")).join(", ");
       const abstract = String(item.abstract || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-      sources.push({
+      return {
         title,
         url: item.URL,
-        excerpt: [author, year, abstract].filter(Boolean).join(" — ").slice(0, 900),
-      });
-    });
-  }
+        excerpt: [author, year, abstract].filter(Boolean).join(" — ").slice(0, 600),
+        provider: "Crossref",
+      };
+    }).filter(Boolean);
+}
 
-  return sources.slice(0, 6);
+async function fetchWikinewsSources(query) {
+  const sources = await fetchWikipediaLikeSources(query, "https://en.wikinews.org/w/api.php", 3);
+  return sources.map((source) => ({ ...source, provider: "Wikinews" }));
+}
+
+async function fetchWikipediaLikeSources(query, base, limit) {
+  const searchUrl = new URL(base);
+  searchUrl.search = new URLSearchParams({
+    action: "query",
+    list: "search",
+    srsearch: query,
+    srlimit: String(limit),
+    format: "json",
+    origin: "*",
+  });
+  const searchResponse = await fetch(searchUrl);
+  if (!searchResponse.ok) return [];
+  const searchData = await searchResponse.json();
+  const items = searchData.query?.search || [];
+  return items.map((item) => ({
+    title: item.title,
+    url: `https://en.wikinews.org/?curid=${item.pageid}`,
+    excerpt: String(item.snippet || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").slice(0, 500),
+    provider: "Wikinews",
+  }));
 }
 
 function appendSources(message, sources) {
@@ -447,14 +845,14 @@ function appendSources(message, sources) {
   const sourceBox = document.createElement("div");
   sourceBox.className = "message-sources";
   const label = document.createElement("strong");
-  label.textContent = "Sources";
+  label.textContent = getUiLanguage() === "my" ? "အချက်အလက်ရင်းမြစ်များ" : "Sources";
   sourceBox.appendChild(label);
   sources.forEach((source, index) => {
     const link = document.createElement("a");
     link.href = source.url;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
-    link.textContent = `[${index + 1}] ${source.title}`;
+    link.textContent = `[${index + 1}] ${source.title} — ${source.provider}`;
     sourceBox.appendChild(link);
   });
   $(".message-content", message).appendChild(sourceBox);
@@ -646,6 +1044,28 @@ function closeSetup() {
 document.addEventListener("DOMContentLoaded", () => {
   renderIcons();
   checkLocalAi();
+  const initialUiLanguage = getUiLanguage();
+  $("#uiLanguageSelect").value = initialUiLanguage;
+  $("#responseLanguageSelect").value = localStorage.getItem("nova-response-language") || "my";
+  $("#knowledgeModeSelect").value = localStorage.getItem("nova-knowledge-mode") || "auto";
+  applyUiLanguage(initialUiLanguage);
+
+  $("#uiLanguageSelect").addEventListener("change", (event) => {
+    localStorage.setItem("nova-ui-language", event.target.value);
+    applyUiLanguage(event.target.value);
+  });
+  $("#responseLanguageSelect").addEventListener("change", (event) => {
+    localStorage.setItem("nova-response-language", event.target.value);
+  });
+  $("#knowledgeModeSelect").addEventListener("change", (event) => {
+    localStorage.setItem("nova-knowledge-mode", event.target.value);
+  });
+  $$("[data-quick-prompt]").forEach((button) => {
+    button.addEventListener("click", () => {
+      $("#aiPrompt").value = button.dataset.quickPrompt || "";
+      $("#aiPrompt").focus();
+    });
+  });
 
   $$("[data-open-tool], [data-tool]").forEach((button) => {
     button.addEventListener("click", () => openTool(button.dataset.openTool || button.dataset.tool));

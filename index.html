@@ -86,6 +86,10 @@
           </label>
           <div class="top-actions">
             <span class="api-status connected" id="apiStatus"><i></i> Free local mode</span>
+            <select class="top-language-select" id="uiLanguageSelect" aria-label="Interface language">
+              <option value="en">EN</option>
+              <option value="my">မြန်မာ</option>
+            </select>
             <button class="icon-button install-button hidden" id="installButton" aria-label="Install Nova AI">
               <i data-lucide="download"></i>
             </button>
@@ -101,18 +105,18 @@
         <div class="page" id="homeView">
           <section class="hero">
             <div class="hero-copy">
-              <span class="hero-kicker"><i data-lucide="wand-sparkles"></i> Your creative intelligence</span>
-              <h1>One workspace.<br /><em>Every superpower.</em></h1>
-              <p>
+              <span class="hero-kicker"><i data-lucide="wand-sparkles"></i><span id="heroKicker">Your creative intelligence</span></span>
+              <h1 id="heroTitle">One workspace.<br /><em>Every superpower.</em></h1>
+              <p id="heroCopy">
                 Research, write, edit photos, cut videos, and turn rough ideas into finished work—without
                 jumping between ten different apps.
               </p>
               <div class="hero-actions">
                 <button class="primary-button" data-open-tool="chat">
-                  Start creating <i data-lucide="arrow-up-right"></i>
+                  <span id="startCreatingLabel">Start creating</span> <i data-lucide="arrow-up-right"></i>
                 </button>
                 <button class="ghost-button" id="exploreButton">
-                  Explore all tools <i data-lucide="arrow-down"></i>
+                  <span id="exploreToolsLabel">Explore all tools</span> <i data-lucide="arrow-down"></i>
                 </button>
               </div>
             </div>
@@ -131,14 +135,15 @@
           <section class="tools-section" id="tools">
             <div class="section-heading">
               <div>
-                <span class="eyebrow">AI TOOLKIT</span>
-                <h2>What will you create today?</h2>
+                <span class="eyebrow" id="toolkitEyebrow">AI TOOLKIT</span>
+                <h2 id="toolsHeading">What will you create today?</h2>
               </div>
-              <p>Everything you need, gathered into one focused workspace.</p>
+              <p id="toolsIntro">Everything you need, gathered into one focused workspace.</p>
             </div>
 
             <div class="category-tabs" id="categoryTabs">
               <button class="active" data-category="all">All tools</button>
+              <button data-category="daily">Daily use</button>
               <button data-category="creative">Creative</button>
               <button data-category="research">Research</button>
               <button data-category="writing">Writing</button>
@@ -147,7 +152,7 @@
             </div>
 
             <div class="tools-grid" id="toolsGrid">
-              <button class="tool-card featured" data-tool="chat" data-category="research writing">
+              <button class="tool-card featured" data-tool="chat" data-category="daily research writing">
                 <span class="card-icon violet"><i data-lucide="message-square-text"></i></span>
                 <span class="card-badge">POPULAR</span>
                 <span class="card-content">
@@ -155,6 +160,52 @@
                   <small>Think, plan, write, and solve with a powerful AI copilot.</small>
                 </span>
                 <span class="card-link">Open chat <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="world" data-category="daily research">
+                <span class="card-icon mint"><i data-lucide="globe-2"></i></span>
+                <span class="card-badge new">LIVE KNOWLEDGE</span>
+                <span class="card-content">
+                  <strong>World Knowledge</strong>
+                  <small>Ask factual questions with multilingual public sources and citations.</small>
+                </span>
+                <span class="card-link">Ask the world <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="daily" data-category="daily">
+                <span class="card-icon violet"><i data-lucide="calendar-check-2"></i></span>
+                <span class="card-content">
+                  <strong>Daily Assistant</strong>
+                  <small>Plan your day, make decisions, draft messages, and organize tasks.</small>
+                </span>
+                <span class="card-link">Plan my day <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="planner" data-category="daily">
+                <span class="card-icon amber"><i data-lucide="list-checks"></i></span>
+                <span class="card-content">
+                  <strong>Smart Planner</strong>
+                  <small>Turn goals and deadlines into a realistic step-by-step plan.</small>
+                </span>
+                <span class="card-link">Build a plan <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="study" data-category="daily research">
+                <span class="card-icon blue"><i data-lucide="graduation-cap"></i></span>
+                <span class="card-content">
+                  <strong>Study Tutor</strong>
+                  <small>Learn a topic simply, get examples, quizzes, and source-backed explanations.</small>
+                </span>
+                <span class="card-link">Start learning <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="calculator" data-category="daily">
+                <span class="card-icon cyan"><i data-lucide="calculator"></i></span>
+                <span class="card-content">
+                  <strong>Quick Calculator</strong>
+                  <small>Calculate arithmetic instantly, then explain the steps when needed.</small>
+                </span>
+                <span class="card-link">Calculate <i data-lucide="arrow-right"></i></span>
               </button>
 
               <button class="tool-card" data-tool="photo" data-category="creative">
@@ -305,6 +356,36 @@
 
       <div class="drawer-body">
         <div class="ai-workspace workspace-panel" id="aiWorkspace">
+          <div class="assistant-controls">
+            <label>
+              <i data-lucide="languages"></i>
+              <span id="answerLanguageLabel">Answer language</span>
+              <select id="responseLanguageSelect">
+                <option value="auto">Auto detect</option>
+                <option value="my">မြန်မာ</option>
+                <option value="en">English</option>
+                <option value="th">ไทย</option>
+                <option value="zh">中文</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+                <option value="hi">हिन्दी</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="ar">العربية</option>
+                <option value="ru">Русский</option>
+              </select>
+            </label>
+            <label>
+              <i data-lucide="book-open-check"></i>
+              <span id="knowledgeModeLabel">World knowledge</span>
+              <select id="knowledgeModeSelect">
+                <option value="auto">Auto</option>
+                <option value="always">Always search</option>
+                <option value="off">Local AI only</option>
+              </select>
+            </label>
+          </div>
           <div class="local-model-bar" id="localModelBar">
             <span class="model-state-icon"><i data-lucide="cpu"></i></span>
             <span>
@@ -320,6 +401,12 @@
               <h3 id="welcomeTitle">How can I help?</h3>
               <p id="welcomeCopy">Share a question, rough idea, or task. I’ll help you move it forward.</p>
             </div>
+          </div>
+          <div class="quick-prompts" id="quickPrompts">
+            <button type="button" data-quick-prompt="ဒီနေ့အတွက် အရေးကြီးဆုံးအလုပ်တွေကို အစီအစဉ်ဆွဲပေးပါ">နေ့စဉ်အစီအစဉ်</button>
+            <button type="button" data-quick-prompt="ဒီအကြောင်းကို အလွယ်ဆုံးနည်းနဲ့ သင်ပေးပါ: ">လွယ်လွယ်သင်ပေး</button>
+            <button type="button" data-quick-prompt="ဒီစာကို ရှင်းလင်းတဲ့ မြန်မာဘာသာနဲ့ ပြန်ရေးပေးပါ: ">မြန်မာလိုပြန်ရေး</button>
+            <button type="button" data-quick-prompt="အချက်အလက်မှန်ကန်တဲ့ source တွေနဲ့ ရှာဖွေဖြေပေးပါ: ">Source နဲ့ရှာ</button>
           </div>
           <form class="composer" id="aiForm">
             <textarea id="aiPrompt" rows="3" placeholder="Ask anything..."></textarea>

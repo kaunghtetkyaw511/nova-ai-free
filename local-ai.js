@@ -83,7 +83,7 @@ export async function generateLocalText({ prompt, instruction, temperature = 0.6
       {
         role: "system",
         content: `${instruction || "You are a helpful assistant."}
-Reply in the same language as the user unless they ask for another language.
+Follow the requested response language exactly.
 Be concise and honest about uncertainty.`,
       },
       { role: "user", content: prompt },
@@ -110,7 +110,7 @@ Be concise and honest about uncertainty.`,
       {
         role: "system",
         content: `${instruction || "You are a helpful assistant."}
-Reply in the same language as the user unless they ask for another language.
+Follow the requested response language exactly.
 Be honest about uncertainty. Do not claim to have searched sources that are not included in the prompt.`,
       },
       { role: "user", content: `${prompt}\n\n/no_think` },
@@ -118,6 +118,7 @@ Be honest about uncertainty. Do not claim to have searched sources that are not 
     temperature,
     top_p: 0.9,
     max_tokens: 768,
+    enable_thinking: false,
     stream: true,
   });
 
