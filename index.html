@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Nova AI is an all-in-one workspace for AI research, writing, photo editing, video editing, and creative tools."
+    />
+    <meta name="theme-color" content="#5e46df" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Nova AI" />
+    <title>Nova AI — Create without limits</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/nova-icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/nova-icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#" aria-label="Nova AI home">
+          <span class="brand-mark"><i data-lucide="sparkles"></i></span>
+          <span>NOVA <b>AI</b></span>
+        </a>
+
+        <nav class="side-nav" aria-label="Main navigation">
+          <p>Workspace</p>
+          <button class="nav-item active" data-view="home">
+            <i data-lucide="layout-grid"></i><span>Discover</span>
+          </button>
+          <button class="nav-item" data-open-tool="chat">
+            <i data-lucide="message-square-text"></i><span>AI Chat</span>
+          </button>
+          <button class="nav-item" data-open-tool="research">
+            <i data-lucide="search-code"></i><span>Deep Research</span>
+          </button>
+          <button class="nav-item" data-view="recent">
+            <i data-lucide="history"></i><span>Recent</span>
+          </button>
+
+          <p>Creative studio</p>
+          <button class="nav-item" data-open-tool="photo">
+            <i data-lucide="image"></i><span>Photo Editor</span>
+          </button>
+          <button class="nav-item" data-open-tool="video">
+            <i data-lucide="clapperboard"></i><span>Video Editor</span>
+          </button>
+          <button class="nav-item" data-filter-category="audio">
+            <i data-lucide="audio-lines"></i><span>Audio Tools</span>
+          </button>
+        </nav>
+
+        <div class="side-upgrade">
+          <span class="upgrade-icon"><i data-lucide="zap"></i></span>
+          <strong>Free local AI</strong>
+          <p>Runs privately on your device. No API key, subscription, or usage bill.</p>
+          <button id="setupButton">Load AI model</button>
+        </div>
+
+        <button class="profile">
+          <span class="avatar">K</span>
+          <span><strong>Kaung</strong><small>Local workspace</small></span>
+          <i data-lucide="chevrons-up-down"></i>
+        </button>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <button class="icon-button menu-button" id="menuButton" aria-label="Open menu">
+            <i data-lucide="menu"></i>
+          </button>
+          <label class="global-search">
+            <i data-lucide="search"></i>
+            <input id="globalSearch" type="search" placeholder="Search AI tools..." autocomplete="off" />
+            <kbd>⌘ K</kbd>
+          </label>
+          <div class="top-actions">
+            <span class="api-status connected" id="apiStatus"><i></i> Free local mode</span>
+            <button class="icon-button install-button hidden" id="installButton" aria-label="Install Nova AI">
+              <i data-lucide="download"></i>
+            </button>
+            <button class="icon-button" id="themeButton" aria-label="Toggle theme">
+              <i data-lucide="sun"></i>
+            </button>
+            <button class="primary-small" data-open-tool="chat">
+              <i data-lucide="plus"></i><span>New project</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="page" id="homeView">
+          <section class="hero">
+            <div class="hero-copy">
+              <span class="hero-kicker"><i data-lucide="wand-sparkles"></i> Your creative intelligence</span>
+              <h1>One workspace.<br /><em>Every superpower.</em></h1>
+              <p>
+                Research, write, edit photos, cut videos, and turn rough ideas into finished work—without
+                jumping between ten different apps.
+              </p>
+              <div class="hero-actions">
+                <button class="primary-button" data-open-tool="chat">
+                  Start creating <i data-lucide="arrow-up-right"></i>
+                </button>
+                <button class="ghost-button" id="exploreButton">
+                  Explore all tools <i data-lucide="arrow-down"></i>
+                </button>
+              </div>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+              <div class="orbit orbit-one"></div>
+              <div class="orbit orbit-two"></div>
+              <div class="glow-ball">
+                <i data-lucide="sparkles"></i>
+              </div>
+              <span class="float-chip chip-one"><i data-lucide="image"></i> Photo</span>
+              <span class="float-chip chip-two"><i data-lucide="search"></i> Research</span>
+              <span class="float-chip chip-three"><i data-lucide="video"></i> Video</span>
+            </div>
+          </section>
+
+          <section class="tools-section" id="tools">
+            <div class="section-heading">
+              <div>
+                <span class="eyebrow">AI TOOLKIT</span>
+                <h2>What will you create today?</h2>
+              </div>
+              <p>Everything you need, gathered into one focused workspace.</p>
+            </div>
+
+            <div class="category-tabs" id="categoryTabs">
+              <button class="active" data-category="all">All tools</button>
+              <button data-category="creative">Creative</button>
+              <button data-category="research">Research</button>
+              <button data-category="writing">Writing</button>
+              <button data-category="audio">Audio</button>
+              <button data-category="developer">Developer</button>
+            </div>
+
+            <div class="tools-grid" id="toolsGrid">
+              <button class="tool-card featured" data-tool="chat" data-category="research writing">
+                <span class="card-icon violet"><i data-lucide="message-square-text"></i></span>
+                <span class="card-badge">POPULAR</span>
+                <span class="card-content">
+                  <strong>AI Chat</strong>
+                  <small>Think, plan, write, and solve with a powerful AI copilot.</small>
+                </span>
+                <span class="card-link">Open chat <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="photo" data-category="creative">
+                <span class="card-icon coral"><i data-lucide="image-plus"></i></span>
+                <span class="card-content">
+                  <strong>Photo Editor</strong>
+                  <small>Adjust, filter, rotate, and export images in your browser.</small>
+                </span>
+                <span class="card-link">Edit a photo <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="video" data-category="creative">
+                <span class="card-icon blue"><i data-lucide="clapperboard"></i></span>
+                <span class="card-content">
+                  <strong>Video Studio</strong>
+                  <small>Preview, trim, change speed, mute, and export clips.</small>
+                </span>
+                <span class="card-link">Edit a video <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="research" data-category="research">
+                <span class="card-icon mint"><i data-lucide="telescope"></i></span>
+                <span class="card-badge new">FREE SOURCES</span>
+                <span class="card-content">
+                  <strong>Deep Research</strong>
+                  <small>Search free public references and turn sources into clear reports.</small>
+                </span>
+                <span class="card-link">Start research <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="writer" data-category="writing">
+                <span class="card-icon amber"><i data-lucide="pen-line"></i></span>
+                <span class="card-content">
+                  <strong>Smart Writer</strong>
+                  <small>Create articles, captions, emails, scripts, and ad copy.</small>
+                </span>
+                <span class="card-link">Start writing <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="translate" data-category="writing">
+                <span class="card-icon cyan"><i data-lucide="languages"></i></span>
+                <span class="card-content">
+                  <strong>Translator</strong>
+                  <small>Natural translation with tone and cultural context preserved.</small>
+                </span>
+                <span class="card-link">Translate text <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="image-prompt" data-category="creative">
+                <span class="card-icon pink"><i data-lucide="palette"></i></span>
+                <span class="card-content">
+                  <strong>Image Prompt Lab</strong>
+                  <small>Turn an idea into polished prompts for image generators.</small>
+                </span>
+                <span class="card-link">Build a prompt <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="transcribe" data-category="audio">
+                <span class="card-icon lime"><i data-lucide="mic-2"></i></span>
+                <span class="card-content">
+                  <strong>Transcript Helper</strong>
+                  <small>Clean transcripts, create summaries, chapters, and highlights.</small>
+                </span>
+                <span class="card-link">Process transcript <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="voice-script" data-category="audio writing">
+                <span class="card-icon orange"><i data-lucide="radio"></i></span>
+                <span class="card-content">
+                  <strong>Voice Script</strong>
+                  <small>Write natural voiceover and podcast scripts that flow.</small>
+                </span>
+                <span class="card-link">Write a script <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="code" data-category="developer">
+                <span class="card-icon indigo"><i data-lucide="code-2"></i></span>
+                <span class="card-content">
+                  <strong>Code Assistant</strong>
+                  <small>Explain, debug, refactor, and generate production-ready code.</small>
+                </span>
+                <span class="card-link">Open coder <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="summarize" data-category="research writing">
+                <span class="card-icon green"><i data-lucide="scan-text"></i></span>
+                <span class="card-content">
+                  <strong>Summarizer</strong>
+                  <small>Compress long notes and documents into useful key points.</small>
+                </span>
+                <span class="card-link">Summarize text <i data-lucide="arrow-right"></i></span>
+              </button>
+
+              <button class="tool-card" data-tool="ideas" data-category="creative writing">
+                <span class="card-icon rose"><i data-lucide="lightbulb"></i></span>
+                <span class="card-content">
+                  <strong>Idea Generator</strong>
+                  <small>Break creative blocks with concepts, angles, and next steps.</small>
+                </span>
+                <span class="card-link">Generate ideas <i data-lucide="arrow-right"></i></span>
+              </button>
+            </div>
+            <div class="empty-search" id="emptySearch">
+              <i data-lucide="search-x"></i>
+              <strong>No tools found</strong>
+              <span>Try a different search phrase.</span>
+            </div>
+          </section>
+
+          <section class="workflow-banner">
+            <div class="workflow-copy">
+              <span class="eyebrow">BUILT TO FLOW</span>
+              <h2>From first thought to final export.</h2>
+              <p>Your tools share one workspace, so the result from research can become a script, post, or creative brief.</p>
+            </div>
+            <div class="workflow-steps">
+              <span><b>01</b><i data-lucide="search"></i> Research</span>
+              <i data-lucide="arrow-right"></i>
+              <span><b>02</b><i data-lucide="pen-line"></i> Create</span>
+              <i data-lucide="arrow-right"></i>
+              <span><b>03</b><i data-lucide="sliders-horizontal"></i> Refine</span>
+              <i data-lucide="arrow-right"></i>
+              <span><b>04</b><i data-lucide="download"></i> Export</span>
+            </div>
+          </section>
+        </div>
+
+        <div class="page recent-page hidden" id="recentView">
+          <div class="simple-page-head">
+            <span class="eyebrow">YOUR WORKSPACE</span>
+            <h1>Recent activity</h1>
+            <p>Your latest tool sessions are saved locally in this browser.</p>
+          </div>
+          <div class="recent-list" id="recentList"></div>
+        </div>
+      </main>
+    </div>
+
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <section class="tool-drawer" id="toolDrawer" aria-hidden="true" aria-label="Tool workspace">
+      <header class="drawer-header">
+        <div>
+          <span class="drawer-icon" id="drawerIcon"><i data-lucide="sparkles"></i></span>
+          <span><strong id="drawerTitle">AI Tool</strong><small id="drawerSubtitle">Create something remarkable</small></span>
+        </div>
+        <button class="icon-button" id="closeDrawer" aria-label="Close tool"><i data-lucide="x"></i></button>
+      </header>
+
+      <div class="drawer-body">
+        <div class="ai-workspace workspace-panel" id="aiWorkspace">
+          <div class="local-model-bar" id="localModelBar">
+            <span class="model-state-icon"><i data-lucide="cpu"></i></span>
+            <span>
+              <strong id="localModelStatus">Free AI model ready to load</strong>
+              <small id="localModelDetail">First use downloads the model once, then it stays cached on this device.</small>
+              <span class="model-progress"><i id="localModelProgress"></i></span>
+            </span>
+            <button type="button" id="loadModelButton">Load model</button>
+          </div>
+          <div class="chat-stream" id="chatStream">
+            <div class="welcome-message">
+              <span><i data-lucide="sparkles"></i></span>
+              <h3 id="welcomeTitle">How can I help?</h3>
+              <p id="welcomeCopy">Share a question, rough idea, or task. I’ll help you move it forward.</p>
+            </div>
+          </div>
+          <form class="composer" id="aiForm">
+            <textarea id="aiPrompt" rows="3" placeholder="Ask anything..."></textarea>
+            <div>
+              <span id="modeLabel"><i data-lucide="cpu"></i> Free local AI</span>
+              <button type="submit" aria-label="Send prompt"><i data-lucide="arrow-up"></i></button>
+            </div>
+          </form>
+        </div>
+
+        <div class="photo-workspace workspace-panel hidden" id="photoWorkspace">
+          <label class="drop-zone" id="photoDrop">
+            <input id="photoInput" type="file" accept="image/*" />
+            <i data-lucide="image-up"></i>
+            <strong>Drop a photo here</strong>
+            <span>or click to browse • JPG, PNG, WEBP</span>
+          </label>
+          <div class="editor-stage hidden" id="photoStage">
+            <div class="canvas-wrap"><canvas id="photoCanvas"></canvas></div>
+            <div class="editor-controls">
+              <label>Brightness <output id="brightnessValue">100</output><input id="brightness" type="range" min="0" max="200" value="100" /></label>
+              <label>Contrast <output id="contrastValue">100</output><input id="contrast" type="range" min="0" max="200" value="100" /></label>
+              <label>Saturation <output id="saturationValue">100</output><input id="saturation" type="range" min="0" max="200" value="100" /></label>
+              <label>Blur <output id="blurValue">0</output><input id="blur" type="range" min="0" max="12" value="0" /></label>
+              <div class="control-buttons">
+                <button id="rotatePhoto" type="button"><i data-lucide="rotate-cw"></i> Rotate</button>
+                <button id="monoPhoto" type="button"><i data-lucide="circle-dot-dashed"></i> Mono</button>
+                <button id="resetPhoto" type="button"><i data-lucide="undo-2"></i> Reset</button>
+              </div>
+              <button class="export-button" id="downloadPhoto" type="button"><i data-lucide="download"></i> Download PNG</button>
+              <button class="replace-button" id="replacePhoto" type="button">Choose another photo</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-workspace workspace-panel hidden" id="videoWorkspace">
+          <label class="drop-zone" id="videoDrop">
+            <input id="videoInput" type="file" accept="video/*" />
+            <i data-lucide="file-video"></i>
+            <strong>Drop a video here</strong>
+            <span>or click to browse • MP4, MOV, WEBM</span>
+          </label>
+          <div class="editor-stage video-stage hidden" id="videoStage">
+            <div class="video-wrap"><video id="videoPreview" controls playsinline></video></div>
+            <div class="editor-controls">
+              <div class="time-row">
+                <label>Start (sec)<input id="trimStart" type="number" min="0" step="0.1" value="0" /></label>
+                <label>End (sec)<input id="trimEnd" type="number" min="0" step="0.1" value="0" /></label>
+              </div>
+              <label>Playback speed
+                <select id="videoSpeed">
+                  <option value="0.5">0.5×</option>
+                  <option value="0.75">0.75×</option>
+                  <option value="1" selected>1× Normal</option>
+                  <option value="1.25">1.25×</option>
+                  <option value="1.5">1.5×</option>
+                  <option value="2">2×</option>
+                </select>
+              </label>
+              <label class="check-control"><input id="videoMute" type="checkbox" /> Remove audio</label>
+              <button class="preview-button" id="previewTrim" type="button"><i data-lucide="play"></i> Preview selection</button>
+              <button class="export-button" id="exportVideo" type="button"><i data-lucide="download"></i> Export WebM clip</button>
+              <p class="editor-note">Browser export records the selected section in real time. Keep this tab active.</p>
+              <button class="replace-button" id="replaceVideo" type="button">Choose another video</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="setup-modal" id="setupModal" aria-hidden="true">
+      <div class="modal-card">
+        <button class="icon-button modal-close" id="closeSetup" aria-label="Close"><i data-lucide="x"></i></button>
+        <span class="modal-icon"><i data-lucide="cpu"></i></span>
+        <h2>Free AI, on your device</h2>
+        <p>Nova downloads a small open-source model and runs it inside your browser. Your prompts stay on your device and there is no per-message fee.</p>
+        <ul class="setup-points">
+          <li><i data-lucide="wifi"></i><span>Internet is needed for the first model download.</span></li>
+          <li><i data-lucide="hard-drive-download"></i><span>Allow roughly 350 MB of free storage.</span></li>
+          <li><i data-lucide="smartphone"></i><span>Newer Chrome, Edge, or Safari devices work best.</span></li>
+        </ul>
+        <p class="model-disclaimer">“Unlimited” means Nova does not meter messages. Speed and capacity still depend on your phone or computer.</p>
+        <button class="primary-button" id="gotItButton"><i data-lucide="download"></i> Download free AI model</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"><i data-lucide="check-circle-2"></i><span>Done</span></div>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "Nova AI — Free Creative Workspace",
+  "short_name": "Nova AI",
+  "description": "Private, free browser AI with photo, video, research, writing, and creative tools.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f1",
+  "theme_color": "#5e46df",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/nova-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/nova-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
