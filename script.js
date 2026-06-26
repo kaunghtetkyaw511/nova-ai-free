@@ -710,6 +710,12 @@ async function submitAi(event) {
     }
   }
 
+  const instantReply = getInstantAssistantReply(prompt, config, responseLanguage);
+  if (instantReply) {
+    addMessage("assistant", instantReply, false, { persist: true });
+    return;
+  }
+
   const knowledgeMode = $("#knowledgeModeSelect").value;
   const shouldSearch = knowledgeMode !== "off"
     && (config.research || config.knowledge || knowledgeMode === "always" || looksLikeKnowledgeQuestion(prompt));
@@ -770,12 +776,13 @@ Never pretend to know something you cannot support. Correct the user's false pre
       },
     });
     setModelReady();
-    const fallbackText = !text && sources.length
-      ? await buildSourceFallback(sources, responseLanguage, prompt)
-      : "";
-    const finalAnswer = text || fallbackText || (getUiLanguage() === "my"
-      ? "လုံလောက်တဲ့ ယုံကြည်စိတ်ချရသော အချက်အလက် မရသေးပါ။"
-      : "I do not have enough reliable information to answer that yet.");
+    const fallbackText = text ? "" : await buildEmptyModelFallback({
+      prompt,
+      responseLanguage,
+      shouldSearch,
+      sources,
+    });
+    const finalAnswer = text || fallbackText;
     loading.dataset.rawText = finalAnswer;
     renderMessageContent(content, "assistant", finalAnswer);
     loading.classList.remove("loading");
@@ -800,6 +807,56 @@ function buildLanguageInstruction(language, prompt) {
     return "Always answer in natural Myanmar (Burmese) Unicode. Use clear everyday Burmese, preserve necessary English technical terms in parentheses, and never use Zawgyi encoding.";
   }
   return `Always answer in ${languageNames[language] || "the selected language"}.`;
+}
+
+function resolveResponseLanguage(language, prompt) {
+  if (language && language !== "auto") return language;
+  return /[\u1000-\u109f]/.test(prompt) ? "my" : "en";
+}
+
+function isGreetingPrompt(prompt) {
+  const text = prompt.trim().toLowerCase();
+  return /^(hi|hello|hey|yo|မင်္ဂလာပါ|ဟယ်လို|ဟလို|နေကောင်းလား)[!။.\s]*$/i.test(text);
+}
+
+function needsUserTextPrompt(prompt) {
+  const text = prompt.trim();
+  const lower = text.toLowerCase();
+  const asksForMissingText = /(rewrite|translate|summari[sz]e|paraphrase|ပြန်ရေး|ဘာသာပြန်|အကျဉ်းချုပ်|ရှင်းလင်း)/i.test(lower)
+    || /(ပြန်ရေး|ဘာသာပြန်|အကျဉ်းချုပ်|ရှင်းလင်း)/.test(text);
+  return asksForMissingText && /[:：]\s*$/.test(text);
+}
+
+function getInstantAssistantReply(prompt, config, responseLanguage) {
+  if (config.research || config.knowledge) return "";
+  const language = resolveResponseLanguage(responseLanguage, prompt);
+  const isMyanmar = language === "my";
+  if (isGreetingPrompt(prompt)) {
+    return isMyanmar
+      ? "မင်္ဂလာပါ 👋 Nova AI ပါ။ မေးခွန်းမေးချင်တာ၊ စာရေးချင်တာ၊ research လုပ်ချင်တာ၊ photo/video edit လုပ်ချင်တာ—ဘာကူညီပေးရမလဲ?"
+      : "Hello 👋 I’m Nova AI. What would you like help with—writing, research, planning, coding, or creative work?";
+  }
+  if (needsUserTextPrompt(prompt)) {
+    return isMyanmar
+      ? "ရပါတယ်။ ပြန်ရေး/ဘာသာပြန်/ရှင်းလင်းပေးစေချင်တဲ့ စာသားကို အောက်မှာ paste လုပ်ပေးပါ။ စာသားရတာနဲ့ သဘာဝကျတဲ့ မြန်မာလို ပြန်လုပ်ပေးမယ်။"
+      : "Sure — paste the text you want me to rewrite, translate, or summarize, and I’ll clean it up for you.";
+  }
+  return "";
+}
+
+async function buildEmptyModelFallback({ prompt, responseLanguage, shouldSearch, sources }) {
+  if (sources.length) return buildSourceFallback(sources, responseLanguage, prompt);
+
+  const language = resolveResponseLanguage(responseLanguage, prompt);
+  const isMyanmar = language === "my";
+  if (shouldSearch) {
+    return isMyanmar
+      ? "ဒီမေးခွန်းအတွက် ယုံကြည်စိတ်ချရတဲ့ public source မတွေ့သေးပါ။ မေးခွန်းကို နည်းနည်းပိုတိတိကျကျရေးပေးပါ၊ သို့မဟုတ် World knowledge ကို “Off” လုပ်ပြီး local AI answer အနေနဲ့ ပြန်စမ်းနိုင်ပါတယ်။"
+      : "I couldn’t find enough reliable public sources for that. Try making the question more specific, or switch World knowledge to “Off” for a local AI answer.";
+  }
+  return isMyanmar
+    ? "AI model က အဖြေကို အခုချက်ချင်း မထုတ်နိုင်သေးပါ။ ဒါပေမယ့် ကူညီနိုင်ပါတယ်—မေးခွန်းကို နည်းနည်းပိုရှင်းရေးပေးပါ၊ စာသားတစ်ခု paste လုပ်ပါ၊ ဒါမှမဟုတ် New chat နှိပ်ပြီး ပြန်စမ်းပါ။"
+    : "The local AI did not produce a useful answer this time. Try rephrasing the question, paste the text you want help with, or start a new chat and try again.";
 }
 
 function looksLikeKnowledgeQuestion(prompt) {
