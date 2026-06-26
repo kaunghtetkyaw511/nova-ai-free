@@ -1,4 +1,4 @@
-const CACHE_NAME = "nova-ai-shell-v7";
+const CACHE_NAME = "nova-ai-shell-v8";
 const SHELL = [
   "./",
   "./index.html",

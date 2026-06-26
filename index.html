@@ -351,7 +351,15 @@
           <span class="drawer-icon" id="drawerIcon"><i data-lucide="sparkles"></i></span>
           <span><strong id="drawerTitle">AI Tool</strong><small id="drawerSubtitle">Create something remarkable</small></span>
         </div>
-        <button class="icon-button" id="closeDrawer" aria-label="Close tool"><i data-lucide="x"></i></button>
+        <div class="drawer-actions">
+          <button class="mini-action chat-only-action" id="newChatButton" type="button">
+            <i data-lucide="plus"></i><span id="newChatLabel">New chat</span>
+          </button>
+          <button class="icon-button chat-only-action" id="exportChatButton" type="button" aria-label="Export chat">
+            <i data-lucide="download"></i>
+          </button>
+          <button class="icon-button" id="closeDrawer" aria-label="Close tool"><i data-lucide="x"></i></button>
+        </div>
       </header>
 
       <div class="drawer-body">
@@ -383,6 +391,14 @@
                 <option value="auto">Auto</option>
                 <option value="always">Always search</option>
                 <option value="off">Local AI only</option>
+              </select>
+            </label>
+            <label>
+              <i data-lucide="brain"></i>
+              <span id="memoryModeLabel">Chat memory</span>
+              <select id="memoryModeSelect">
+                <option value="on">On</option>
+                <option value="off">Off</option>
               </select>
             </label>
           </div>

@@ -9,6 +9,7 @@ https://kaunghtetkyaw511.github.io/nova-ai-free/
 ## Included
 
 - Free local AI chat powered by WebLLM and Qwen
+- ChatGPT-like chat threads with local memory, new chat, copy, regenerate, and text export
 - English/Myanmar interface with answers in 12 languages
 - Source-backed world knowledge using Wikipedia, Wikidata, Wikinews, and Crossref
 - Daily Assistant, Smart Planner, Study Tutor, and Quick Calculator

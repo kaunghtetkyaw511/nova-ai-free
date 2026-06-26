@@ -89,7 +89,7 @@ Be concise and honest about uncertainty.`,
       { role: "user", content: prompt },
     ];
     const result = await localEngine(messages, {
-      max_new_tokens: 256,
+      max_new_tokens: 384,
       do_sample: temperature > 0,
       temperature: Math.max(0.1, temperature),
       top_p: 0.9,
@@ -117,7 +117,7 @@ Be honest about uncertainty. Do not claim to have searched sources that are not 
     ],
     temperature,
     top_p: 0.9,
-    max_tokens: 768,
+    max_tokens: 1024,
     enable_thinking: false,
     stream: true,
   });

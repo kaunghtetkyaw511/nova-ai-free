@@ -185,6 +185,8 @@ let photoRotation = 0;
 let photoMono = false;
 let videoUrl = null;
 const historyKey = "nova-ai-activity";
+const chatKeyPrefix = "nova-ai-chat";
+const maxStoredMessages = 40;
 const languageNames = {
   auto: "the user's language",
   my: "Myanmar (Burmese)",
@@ -213,6 +215,8 @@ const uiCopy = {
     toolsIntro: "Everything you need, gathered into one focused workspace.",
     answerLanguage: "Answer language",
     knowledgeMode: "World knowledge",
+    memoryMode: "Chat memory",
+    newChat: "New chat",
     searchPlaceholder: "Search AI tools...",
     newProject: "New project",
     navDiscover: "Discover",
@@ -237,6 +241,8 @@ const uiCopy = {
     toolsIntro: "လိုအပ်တဲ့ကိရိယာအားလုံးကို workspace တစ်ခုထဲမှာ စုထားပါတယ်။",
     answerLanguage: "အဖြေဘာသာစကား",
     knowledgeMode: "ကမ္ဘာ့ဗဟုသုတ",
+    memoryMode: "Chat memory",
+    newChat: "Chat အသစ်",
     searchPlaceholder: "AI tools ရှာပါ...",
     newProject: "အသစ်စမယ်",
     navDiscover: "ရှာဖွေကြည့်ရန်",
@@ -277,6 +283,8 @@ function applyUiLanguage(language) {
   $("#toolsIntro").textContent = copy.toolsIntro;
   $("#answerLanguageLabel").textContent = copy.answerLanguage;
   $("#knowledgeModeLabel").textContent = copy.knowledgeMode;
+  $("#memoryModeLabel").textContent = copy.memoryMode;
+  $("#newChatLabel").textContent = copy.newChat;
   $("#globalSearch").placeholder = copy.searchPlaceholder;
   $(".primary-small span").textContent = copy.newProject;
   $('[data-view="home"] span').textContent = copy.navDiscover;
@@ -371,6 +379,182 @@ function escapeHtml(value) {
   return div.innerHTML;
 }
 
+function chatStorageKey(tool = currentTool) {
+  return `${chatKeyPrefix}:${tool}`;
+}
+
+function getConversationMessages(tool = currentTool) {
+  try {
+    const value = JSON.parse(localStorage.getItem(chatStorageKey(tool)) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveConversationMessages(tool, messages) {
+  localStorage.setItem(chatStorageKey(tool), JSON.stringify(messages.slice(-maxStoredMessages)));
+}
+
+function addConversationMessage(tool, message) {
+  const messages = getConversationMessages(tool);
+  messages.push({
+    role: message.role,
+    text: String(message.text || ""),
+    sources: Array.isArray(message.sources) ? message.sources : [],
+    date: message.date || new Date().toISOString(),
+  });
+  saveConversationMessages(tool, messages);
+}
+
+function clearCurrentConversation() {
+  localStorage.removeItem(chatStorageKey(currentTool));
+  const config = localizedTool(toolConfig[currentTool] || toolConfig.chat);
+  renderConversation(config);
+  showToast(getUiLanguage() === "my" ? "Chat အသစ် စတင်ပြီးပါပြီ" : "New chat started");
+}
+
+function getConversationContext() {
+  if ($("#memoryModeSelect")?.value === "off") return "";
+  const history = getConversationMessages(currentTool).slice(-10, -1);
+  if (!history.length) return "";
+  const lines = history.map((message) => {
+    const role = message.role === "assistant" ? "Assistant" : "User";
+    return `${role}: ${message.text.replace(/\s+/g, " ").trim()}`;
+  });
+  return `Previous conversation context, saved locally in this browser:
+${lines.join("\n")}`.slice(0, 3600);
+}
+
+function linkifyEscapedText(value) {
+  return value.replace(/(https?:\/\/[^\s<]+)/g, (url) => {
+    const cleanUrl = url.replace(/[),.;]+$/g, "");
+    const suffix = url.slice(cleanUrl.length);
+    return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer">${cleanUrl}</a>${suffix}`;
+  });
+}
+
+function formatAssistantText(value) {
+  const text = String(value || "");
+  if (!text) return "";
+  const pieces = text.split("```");
+  return pieces.map((piece, index) => {
+    if (index % 2 === 0) return linkifyEscapedText(escapeHtml(piece));
+    const lines = piece.replace(/^\n/, "").split("\n");
+    const firstLine = lines[0]?.trim() || "";
+    const hasLanguageHint = /^[a-z0-9+#.-]{1,24}$/i.test(firstLine);
+    const code = hasLanguageHint ? lines.slice(1).join("\n") : piece;
+    return `<pre><code>${escapeHtml(code.trim())}</code></pre>`;
+  }).join("");
+}
+
+function renderMessageContent(content, role, text) {
+  if (role === "assistant") content.innerHTML = formatAssistantText(text);
+  else content.textContent = text;
+}
+
+function createMessageElement(role, text, loading = false, sources = []) {
+  const message = document.createElement("div");
+  message.className = `message ${role}${loading ? " loading" : ""}`;
+  message.dataset.rawText = text || "";
+  if (role === "assistant") message.innerHTML = `<span><i data-lucide="sparkles"></i></span>`;
+  const body = document.createElement("div");
+  body.className = "message-body";
+  const content = document.createElement("div");
+  content.className = "message-content";
+  renderMessageContent(content, role, text);
+  body.appendChild(content);
+  if (role === "assistant" && !loading) body.appendChild(createMessageActions());
+  message.appendChild(body);
+  appendSources(message, sources);
+  return message;
+}
+
+function createMessageActions() {
+  const actions = document.createElement("div");
+  actions.className = "message-actions";
+  const copyLabel = getUiLanguage() === "my" ? "Copy" : "Copy";
+  const regenerateLabel = getUiLanguage() === "my" ? "ပြန်ဖြေ" : "Regenerate";
+  actions.innerHTML = `
+    <button type="button" data-message-action="copy"><i data-lucide="copy"></i>${copyLabel}</button>
+    <button type="button" data-message-action="regenerate"><i data-lucide="refresh-cw"></i>${regenerateLabel}</button>
+  `;
+  return actions;
+}
+
+function renderConversation(config) {
+  const stream = $("#chatStream");
+  const messages = getConversationMessages(currentTool);
+  stream.innerHTML = "";
+  if (!messages.length) {
+    stream.innerHTML = `<div class="welcome-message">
+      <span><i data-lucide="${config.icon}"></i></span>
+      <h3 id="welcomeTitle">${escapeHtml(config.welcome)}</h3>
+      <p id="welcomeCopy">${escapeHtml(config.copy)}</p>
+    </div>`;
+  } else {
+    messages.forEach((message) => stream.appendChild(createMessageElement(
+      message.role,
+      message.text,
+      false,
+      message.sources || [],
+    )));
+  }
+  stream.scrollTop = stream.scrollHeight;
+  renderIcons();
+}
+
+function exportCurrentChat() {
+  const messages = getConversationMessages(currentTool);
+  if (!messages.length) {
+    showToast(getUiLanguage() === "my" ? "Export လုပ်ရန် chat မရှိသေးပါ" : "No chat to export", "triangle-alert");
+    return;
+  }
+  const config = localizedTool(toolConfig[currentTool] || toolConfig.chat);
+  const body = messages.map((message) => {
+    const role = message.role === "assistant" ? "Nova AI" : "You";
+    const sources = (message.sources || []).map((source, index) => `  [${index + 1}] ${source.title} — ${source.url}`).join("\n");
+    return `${role} (${new Date(message.date).toLocaleString()}):\n${message.text}${sources ? `\nSources:\n${sources}` : ""}`;
+  }).join("\n\n---\n\n");
+  const blob = new Blob([`${config.title} chat export\n${new Date().toLocaleString()}\n\n${body}`], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `nova-ai-${currentTool}-chat-${Date.now()}.txt`;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast(getUiLanguage() === "my" ? "Chat export လုပ်ပြီးပါပြီ" : "Chat exported");
+}
+
+async function copyTextToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  textarea.remove();
+}
+
+function regenerateLastResponse() {
+  const messages = getConversationMessages(currentTool);
+  const lastUserIndex = messages.map((message) => message.role).lastIndexOf("user");
+  if (lastUserIndex === -1) {
+    showToast(getUiLanguage() === "my" ? "ပြန်ဖြေရန် မေးခွန်းမရှိသေးပါ" : "No prompt to regenerate", "triangle-alert");
+    return;
+  }
+  const prompt = messages[lastUserIndex].text;
+  saveConversationMessages(currentTool, messages.slice(0, lastUserIndex));
+  renderConversation(localizedTool(toolConfig[currentTool] || toolConfig.chat));
+  $("#aiPrompt").value = prompt;
+  $("#aiForm").requestSubmit();
+}
+
 function showView(view) {
   $("#homeView").classList.toggle("hidden", view !== "home");
   $("#recentView").classList.toggle("hidden", view !== "recent");
@@ -390,6 +574,7 @@ function openTool(tool) {
   $("#aiWorkspace").classList.toggle("hidden", Boolean(config.workspace));
   $("#photoWorkspace").classList.toggle("hidden", config.workspace !== "photo");
   $("#videoWorkspace").classList.toggle("hidden", config.workspace !== "video");
+  $$(".chat-only-action").forEach((button) => button.classList.toggle("hidden", Boolean(config.workspace)));
 
   if (!config.workspace) {
     $("#aiPrompt").placeholder = config.placeholder;
@@ -398,11 +583,7 @@ function openTool(tool) {
       ? (knowledgeEnabled ? "Sources ပါ AI" : "အခမဲ့ Local AI")
       : (knowledgeEnabled ? "Source-backed AI" : "Free local AI");
     $("#modeLabel").innerHTML = `<i data-lucide="${knowledgeEnabled ? "library-big" : "cpu"}"></i> ${modeText}`;
-    $("#chatStream").innerHTML = `<div class="welcome-message">
-      <span><i data-lucide="${config.icon}"></i></span>
-      <h3 id="welcomeTitle">${escapeHtml(config.welcome)}</h3>
-      <p id="welcomeCopy">${escapeHtml(config.copy)}</p>
-    </div>`;
+    renderConversation(config);
     setTimeout(() => $("#aiPrompt").focus(), 280);
   }
 
@@ -499,17 +680,12 @@ async function checkLocalAi() {
   }
 }
 
-function addMessage(role, text, loading = false) {
+function addMessage(role, text, loading = false, { persist = false, sources = [] } = {}) {
   $(".welcome-message", $("#chatStream"))?.remove();
-  const message = document.createElement("div");
-  message.className = `message ${role}${loading ? " loading" : ""}`;
-  if (role === "assistant") message.innerHTML = `<span><i data-lucide="sparkles"></i></span>`;
-  const content = document.createElement("div");
-  content.className = "message-content";
-  content.textContent = text;
-  message.appendChild(content);
+  const message = createMessageElement(role, text, loading, sources);
   $("#chatStream").appendChild(message);
   $("#chatStream").scrollTop = $("#chatStream").scrollHeight;
+  if (persist) addConversationMessage(currentTool, { role, text, sources });
   renderIcons();
   return message;
 }
@@ -521,7 +697,7 @@ async function submitAi(event) {
   if (!prompt) return;
   const config = toolConfig[currentTool] || toolConfig.chat;
   const responseLanguage = getResponseLanguage();
-  addMessage("user", prompt);
+  addMessage("user", prompt, false, { persist: true });
   input.value = "";
   addActivity(currentTool, prompt);
 
@@ -529,7 +705,7 @@ async function submitAi(event) {
     const calculation = calculateExpression(prompt);
     if (calculation) {
       const label = responseLanguage === "my" ? "အဖြေ" : "Result";
-      addMessage("assistant", `${label}: ${calculation.expression} = ${calculation.result}`);
+      addMessage("assistant", `${label}: ${calculation.expression} = ${calculation.result}`, false, { persist: true });
       return;
     }
   }
@@ -547,7 +723,10 @@ async function submitAi(event) {
       dateStyle: "full",
       timeStyle: "short",
     }).format(new Date());
-    let finalPrompt = `${prompt}
+    const conversationContext = getConversationContext();
+    let finalPrompt = `${conversationContext ? `${conversationContext}
+
+` : ""}User's current message: ${prompt}
 
 Current local date and time: ${dateContext}.`;
     let sources = [];
@@ -585,7 +764,8 @@ Never pretend to know something you cannot support. Correct the user's false pre
       },
       onToken: (fullText) => {
         loading.classList.remove("loading");
-        content.textContent = fullText || "Thinking privately…";
+        loading.dataset.rawText = fullText || "";
+        renderMessageContent(content, "assistant", fullText || "Thinking privately…");
         $("#chatStream").scrollTop = $("#chatStream").scrollHeight;
       },
     });
@@ -593,11 +773,16 @@ Never pretend to know something you cannot support. Correct the user's false pre
     const fallbackText = !text && sources.length
       ? await buildSourceFallback(sources, responseLanguage, prompt)
       : "";
-    content.textContent = text || fallbackText || (getUiLanguage() === "my"
+    const finalAnswer = text || fallbackText || (getUiLanguage() === "my"
       ? "လုံလောက်တဲ့ ယုံကြည်စိတ်ချရသော အချက်အလက် မရသေးပါ။"
       : "I do not have enough reliable information to answer that yet.");
+    loading.dataset.rawText = finalAnswer;
+    renderMessageContent(content, "assistant", finalAnswer);
     loading.classList.remove("loading");
     appendSources(loading, sources);
+    if (!$(".message-actions", loading)) $(".message-body", loading).appendChild(createMessageActions());
+    addConversationMessage(currentTool, { role: "assistant", text: finalAnswer, sources });
+    renderIcons();
   } catch (error) {
     $(".message-content", loading).textContent =
       `Free local AI could not run: ${error.message}\n\nPhoto and video tools still work. On mobile, update the browser and make sure the device has enough free storage.`;
@@ -1048,6 +1233,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#uiLanguageSelect").value = initialUiLanguage;
   $("#responseLanguageSelect").value = localStorage.getItem("nova-response-language") || "my";
   $("#knowledgeModeSelect").value = localStorage.getItem("nova-knowledge-mode") || "auto";
+  $("#memoryModeSelect").value = localStorage.getItem("nova-memory-mode") || "on";
   applyUiLanguage(initialUiLanguage);
 
   $("#uiLanguageSelect").addEventListener("change", (event) => {
@@ -1059,6 +1245,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   $("#knowledgeModeSelect").addEventListener("change", (event) => {
     localStorage.setItem("nova-knowledge-mode", event.target.value);
+  });
+  $("#memoryModeSelect").addEventListener("change", (event) => {
+    localStorage.setItem("nova-memory-mode", event.target.value);
   });
   $$("[data-quick-prompt]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -1105,6 +1294,23 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#menuButton").addEventListener("click", () => $("#sidebar").classList.toggle("open"));
   $("#closeDrawer").addEventListener("click", closeTool);
   $("#drawerBackdrop").addEventListener("click", closeTool);
+  $("#newChatButton").addEventListener("click", clearCurrentConversation);
+  $("#exportChatButton").addEventListener("click", exportCurrentChat);
+  $("#chatStream").addEventListener("click", async (event) => {
+    const actionButton = event.target.closest("[data-message-action]");
+    if (!actionButton) return;
+    const action = actionButton.dataset.messageAction;
+    const message = actionButton.closest(".message");
+    if (action === "copy") {
+      try {
+        await copyTextToClipboard(message?.dataset.rawText || "");
+        showToast(getUiLanguage() === "my" ? "Copy လုပ်ပြီးပါပြီ" : "Copied");
+      } catch {
+        showToast(getUiLanguage() === "my" ? "Copy မအောင်မြင်ပါ" : "Could not copy", "triangle-alert");
+      }
+    }
+    if (action === "regenerate") regenerateLastResponse();
+  });
   $("#aiForm").addEventListener("submit", submitAi);
   $("#aiPrompt").addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
