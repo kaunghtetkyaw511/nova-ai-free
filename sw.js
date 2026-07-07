@@ -1,15 +1,16 @@
-const CACHE_NAME = "nova-ai-shell-v9";
+const CACHE_NAME = "thazin-portfolio-v8";
 const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./script.js",
-  "./local-ai.js",
-  "./safe.html",
   "./manifest.webmanifest",
-  "./assets/nova-icon.svg",
-  "./assets/nova-icon-192.png",
-  "./assets/nova-icon-512.png"
+  "./assets/thazin-mark.svg",
+  "./assets/images/thazin-cover.jpg",
+  "./assets/images/thazin-cv-preview.jpg",
+  "./assets/design-showcase/showcase.json",
+  "./assets/design-showcase/showcase-data.js",
+  "./assets/documents/thazin-mg-mg-htwe-cv.pdf"
 ];
 
 self.addEventListener("install", (event) => {
@@ -26,21 +27,19 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
   const requestUrl = new URL(event.request.url);
-  if (event.request.method !== "GET" || requestUrl.origin !== self.location.origin) return;
+  if (requestUrl.origin !== self.location.origin) return;
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request)
-        .then((response) => {
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => cached || caches.match("./index.html"));
-      return cached || network;
-    })
+    fetch(event.request)
+      .then((response) => {
+        if (response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request).then((cached) => cached || caches.match("./index.html")))
   );
 });

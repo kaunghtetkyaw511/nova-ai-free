@@ -13,7 +13,9 @@ const mimeTypes = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
   ".svg": "image/svg+xml",
+  ".pdf": "application/pdf",
 };
 
 function serve(request, response) {
@@ -31,14 +33,22 @@ function serve(request, response) {
       response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
       return response.end("Not found");
     }
-    response.writeHead(200, {
+
+    const headers = {
       "Content-Type": mimeTypes[path.extname(filePath).toLowerCase()] || "application/octet-stream",
       "Cache-Control": "no-cache",
-    });
+      "X-Content-Type-Options": "nosniff",
+    };
+
+    if (relativePath === "assets/documents/thazin-mg-mg-htwe-cv.pdf") {
+      headers["Content-Disposition"] = 'attachment; filename="Thazin-Mg-Mg-Htwe-CV.pdf"';
+    }
+
+    response.writeHead(200, headers);
     fs.createReadStream(filePath).pipe(response);
   });
 }
 
 http.createServer(serve).listen(port, () => {
-  console.log(`Nova AI free local edition: http://localhost:${port}`);
+  console.log(`Thazin Mg Mg Htwe portfolio: http://localhost:${port}`);
 });

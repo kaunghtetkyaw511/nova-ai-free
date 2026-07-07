@@ -1,8 +1,8 @@
 {
-  "name": "nova-ai-workspace",
+  "name": "thazin-mg-mg-htwe-portfolio",
   "version": "1.0.0",
   "private": true,
-  "description": "Free, private, in-browser AI research and creative editing workspace",
+  "description": "Responsive portfolio for Thazin Mg Mg Htwe, Graphic Designer",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js"

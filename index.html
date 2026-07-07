@@ -1,514 +1,432 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Nova AI is an all-in-one workspace for AI research, writing, photo editing, video editing, and creative tools."
+      content="Premium portfolio website for Thazin Mg Mg Htwe, a graphic designer experienced in digital design, print design, photography, illustration, and video editing."
     />
-    <meta name="theme-color" content="#5e46df" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Nova AI" />
-    <title>Nova AI — Create without limits</title>
+    <meta name="theme-color" content="#081427" />
+    <meta property="og:title" content="Thazin Mg Mg Htwe - Graphic Designer" />
+    <meta
+      property="og:description"
+      content="Digital and print graphic design, illustration, photography, video editing, and social media creative work."
+    />
+    <meta property="og:image" content="assets/images/thazin-cover.jpg" />
+    <title>Thazin Mg Mg Htwe - Graphic Designer Portfolio</title>
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="icon" href="assets/nova-icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="assets/nova-icon-192.png" />
+    <link rel="icon" href="assets/thazin-mark.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="assets/design-showcase/showcase-data.js" defer></script>
     <script src="script.js" defer></script>
   </head>
   <body>
-    <div class="app-shell">
-      <aside class="sidebar" id="sidebar">
-        <a class="brand" href="#" aria-label="Nova AI home">
-          <span class="brand-mark"><i data-lucide="sparkles"></i></span>
-          <span>NOVA <b>AI</b></span>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" id="siteHeader">
+      <div class="nav-shell">
+        <a class="brand" href="#home" aria-label="Thazin Mg Mg Htwe home">
+          <span class="brand-mark">TH</span>
+          <span class="brand-text">
+            <strong>Thazin</strong>
+            <small>Graphic Designer</small>
+          </span>
         </a>
 
-        <nav class="side-nav" aria-label="Main navigation">
-          <p>Workspace</p>
-          <button class="nav-item active" data-view="home">
-            <i data-lucide="layout-grid"></i><span>Discover</span>
-          </button>
-          <button class="nav-item" data-open-tool="chat">
-            <i data-lucide="message-square-text"></i><span>AI Chat</span>
-          </button>
-          <button class="nav-item" data-open-tool="research">
-            <i data-lucide="search-code"></i><span>Deep Research</span>
-          </button>
-          <button class="nav-item" data-view="recent">
-            <i data-lucide="history"></i><span>Recent</span>
-          </button>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="siteNav">
+          <span></span>
+          <span></span>
+          <span class="sr-only">Open menu</span>
+        </button>
 
-          <p>Creative studio</p>
-          <button class="nav-item" data-open-tool="photo">
-            <i data-lucide="image"></i><span>Photo Editor</span>
-          </button>
-          <button class="nav-item" data-open-tool="video">
-            <i data-lucide="clapperboard"></i><span>Video Editor</span>
-          </button>
-          <button class="nav-item" data-filter-category="audio">
-            <i data-lucide="audio-lines"></i><span>Audio Tools</span>
-          </button>
+        <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+          <a href="#about">About</a>
+          <a href="#showcase">Showcase</a>
+          <a href="#work">Experience</a>
+          <a href="#skills">Skills</a>
+          <a href="#cv">CV</a>
+          <a href="#contact">Contact</a>
         </nav>
 
-        <div class="side-upgrade">
-          <span class="upgrade-icon"><i data-lucide="zap"></i></span>
-          <strong>Free local AI</strong>
-          <p>Runs privately on your device. No API key, subscription, or usage bill.</p>
-          <button id="setupButton">Load AI model</button>
-        </div>
-
-        <button class="profile">
-          <span class="avatar">K</span>
-          <span><strong>Kaung</strong><small>Local workspace</small></span>
-          <i data-lucide="chevrons-up-down"></i>
-        </button>
-      </aside>
-
-      <main class="main-content">
-        <header class="topbar">
-          <button class="icon-button menu-button" id="menuButton" aria-label="Open menu">
-            <i data-lucide="menu"></i>
-          </button>
-          <label class="global-search">
-            <i data-lucide="search"></i>
-            <input id="globalSearch" type="search" placeholder="Search AI tools..." autocomplete="off" />
-            <kbd>⌘ K</kbd>
-          </label>
-          <div class="top-actions">
-            <span class="api-status connected" id="apiStatus"><i></i> Free local mode</span>
-            <select class="top-language-select" id="uiLanguageSelect" aria-label="Interface language">
-              <option value="en">EN</option>
-              <option value="my">မြန်မာ</option>
-            </select>
-            <button class="icon-button install-button hidden" id="installButton" aria-label="Install Nova AI">
-              <i data-lucide="download"></i>
-            </button>
-            <button class="icon-button" id="themeButton" aria-label="Toggle theme">
-              <i data-lucide="sun"></i>
-            </button>
-            <button class="primary-small" data-open-tool="chat">
-              <i data-lucide="plus"></i><span>New project</span>
-            </button>
-          </div>
-        </header>
-
-        <div class="page" id="homeView">
-          <section class="hero">
-            <div class="hero-copy">
-              <span class="hero-kicker"><i data-lucide="wand-sparkles"></i><span id="heroKicker">Your creative intelligence</span></span>
-              <h1 id="heroTitle">One workspace.<br /><em>Every superpower.</em></h1>
-              <p id="heroCopy">
-                Research, write, edit photos, cut videos, and turn rough ideas into finished work—without
-                jumping between ten different apps.
-              </p>
-              <div class="hero-actions">
-                <button class="primary-button" data-open-tool="chat">
-                  <span id="startCreatingLabel">Start creating</span> <i data-lucide="arrow-up-right"></i>
-                </button>
-                <button class="ghost-button" id="exploreButton">
-                  <span id="exploreToolsLabel">Explore all tools</span> <i data-lucide="arrow-down"></i>
-                </button>
-              </div>
-            </div>
-            <div class="hero-visual" aria-hidden="true">
-              <div class="orbit orbit-one"></div>
-              <div class="orbit orbit-two"></div>
-              <div class="glow-ball">
-                <i data-lucide="sparkles"></i>
-              </div>
-              <span class="float-chip chip-one"><i data-lucide="image"></i> Photo</span>
-              <span class="float-chip chip-two"><i data-lucide="search"></i> Research</span>
-              <span class="float-chip chip-three"><i data-lucide="video"></i> Video</span>
-            </div>
-          </section>
-
-          <section class="tools-section" id="tools">
-            <div class="section-heading">
-              <div>
-                <span class="eyebrow" id="toolkitEyebrow">AI TOOLKIT</span>
-                <h2 id="toolsHeading">What will you create today?</h2>
-              </div>
-              <p id="toolsIntro">Everything you need, gathered into one focused workspace.</p>
-            </div>
-
-            <div class="category-tabs" id="categoryTabs">
-              <button class="active" data-category="all">All tools</button>
-              <button data-category="daily">Daily use</button>
-              <button data-category="creative">Creative</button>
-              <button data-category="research">Research</button>
-              <button data-category="writing">Writing</button>
-              <button data-category="audio">Audio</button>
-              <button data-category="developer">Developer</button>
-            </div>
-
-            <div class="tools-grid" id="toolsGrid">
-              <button class="tool-card featured" data-tool="chat" data-category="daily research writing">
-                <span class="card-icon violet"><i data-lucide="message-square-text"></i></span>
-                <span class="card-badge">POPULAR</span>
-                <span class="card-content">
-                  <strong>AI Chat</strong>
-                  <small>Think, plan, write, and solve with a powerful AI copilot.</small>
-                </span>
-                <span class="card-link">Open chat <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="world" data-category="daily research">
-                <span class="card-icon mint"><i data-lucide="globe-2"></i></span>
-                <span class="card-badge new">LIVE KNOWLEDGE</span>
-                <span class="card-content">
-                  <strong>World Knowledge</strong>
-                  <small>Ask factual questions with multilingual public sources and citations.</small>
-                </span>
-                <span class="card-link">Ask the world <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="daily" data-category="daily">
-                <span class="card-icon violet"><i data-lucide="calendar-check-2"></i></span>
-                <span class="card-content">
-                  <strong>Daily Assistant</strong>
-                  <small>Plan your day, make decisions, draft messages, and organize tasks.</small>
-                </span>
-                <span class="card-link">Plan my day <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="planner" data-category="daily">
-                <span class="card-icon amber"><i data-lucide="list-checks"></i></span>
-                <span class="card-content">
-                  <strong>Smart Planner</strong>
-                  <small>Turn goals and deadlines into a realistic step-by-step plan.</small>
-                </span>
-                <span class="card-link">Build a plan <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="study" data-category="daily research">
-                <span class="card-icon blue"><i data-lucide="graduation-cap"></i></span>
-                <span class="card-content">
-                  <strong>Study Tutor</strong>
-                  <small>Learn a topic simply, get examples, quizzes, and source-backed explanations.</small>
-                </span>
-                <span class="card-link">Start learning <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="calculator" data-category="daily">
-                <span class="card-icon cyan"><i data-lucide="calculator"></i></span>
-                <span class="card-content">
-                  <strong>Quick Calculator</strong>
-                  <small>Calculate arithmetic instantly, then explain the steps when needed.</small>
-                </span>
-                <span class="card-link">Calculate <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="photo" data-category="creative">
-                <span class="card-icon coral"><i data-lucide="image-plus"></i></span>
-                <span class="card-content">
-                  <strong>Photo Editor</strong>
-                  <small>Adjust, filter, rotate, and export images in your browser.</small>
-                </span>
-                <span class="card-link">Edit a photo <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="video" data-category="creative">
-                <span class="card-icon blue"><i data-lucide="clapperboard"></i></span>
-                <span class="card-content">
-                  <strong>Video Studio</strong>
-                  <small>Preview, trim, change speed, mute, and export clips.</small>
-                </span>
-                <span class="card-link">Edit a video <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="research" data-category="research">
-                <span class="card-icon mint"><i data-lucide="telescope"></i></span>
-                <span class="card-badge new">FREE SOURCES</span>
-                <span class="card-content">
-                  <strong>Deep Research</strong>
-                  <small>Search free public references and turn sources into clear reports.</small>
-                </span>
-                <span class="card-link">Start research <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="writer" data-category="writing">
-                <span class="card-icon amber"><i data-lucide="pen-line"></i></span>
-                <span class="card-content">
-                  <strong>Smart Writer</strong>
-                  <small>Create articles, captions, emails, scripts, and ad copy.</small>
-                </span>
-                <span class="card-link">Start writing <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="translate" data-category="writing">
-                <span class="card-icon cyan"><i data-lucide="languages"></i></span>
-                <span class="card-content">
-                  <strong>Translator</strong>
-                  <small>Natural translation with tone and cultural context preserved.</small>
-                </span>
-                <span class="card-link">Translate text <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="image-prompt" data-category="creative">
-                <span class="card-icon pink"><i data-lucide="palette"></i></span>
-                <span class="card-content">
-                  <strong>Image Prompt Lab</strong>
-                  <small>Turn an idea into polished prompts for image generators.</small>
-                </span>
-                <span class="card-link">Build a prompt <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="transcribe" data-category="audio">
-                <span class="card-icon lime"><i data-lucide="mic-2"></i></span>
-                <span class="card-content">
-                  <strong>Transcript Helper</strong>
-                  <small>Clean transcripts, create summaries, chapters, and highlights.</small>
-                </span>
-                <span class="card-link">Process transcript <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="voice-script" data-category="audio writing">
-                <span class="card-icon orange"><i data-lucide="radio"></i></span>
-                <span class="card-content">
-                  <strong>Voice Script</strong>
-                  <small>Write natural voiceover and podcast scripts that flow.</small>
-                </span>
-                <span class="card-link">Write a script <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="code" data-category="developer">
-                <span class="card-icon indigo"><i data-lucide="code-2"></i></span>
-                <span class="card-content">
-                  <strong>Code Assistant</strong>
-                  <small>Explain, debug, refactor, and generate production-ready code.</small>
-                </span>
-                <span class="card-link">Open coder <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="summarize" data-category="research writing">
-                <span class="card-icon green"><i data-lucide="scan-text"></i></span>
-                <span class="card-content">
-                  <strong>Summarizer</strong>
-                  <small>Compress long notes and documents into useful key points.</small>
-                </span>
-                <span class="card-link">Summarize text <i data-lucide="arrow-right"></i></span>
-              </button>
-
-              <button class="tool-card" data-tool="ideas" data-category="creative writing">
-                <span class="card-icon rose"><i data-lucide="lightbulb"></i></span>
-                <span class="card-content">
-                  <strong>Idea Generator</strong>
-                  <small>Break creative blocks with concepts, angles, and next steps.</small>
-                </span>
-                <span class="card-link">Generate ideas <i data-lucide="arrow-right"></i></span>
-              </button>
-            </div>
-            <div class="empty-search" id="emptySearch">
-              <i data-lucide="search-x"></i>
-              <strong>No tools found</strong>
-              <span>Try a different search phrase.</span>
-            </div>
-          </section>
-
-          <section class="workflow-banner">
-            <div class="workflow-copy">
-              <span class="eyebrow">BUILT TO FLOW</span>
-              <h2>From first thought to final export.</h2>
-              <p>Your tools share one workspace, so the result from research can become a script, post, or creative brief.</p>
-            </div>
-            <div class="workflow-steps">
-              <span><b>01</b><i data-lucide="search"></i> Research</span>
-              <i data-lucide="arrow-right"></i>
-              <span><b>02</b><i data-lucide="pen-line"></i> Create</span>
-              <i data-lucide="arrow-right"></i>
-              <span><b>03</b><i data-lucide="sliders-horizontal"></i> Refine</span>
-              <i data-lucide="arrow-right"></i>
-              <span><b>04</b><i data-lucide="download"></i> Export</span>
-            </div>
-          </section>
-        </div>
-
-        <div class="page recent-page hidden" id="recentView">
-          <div class="simple-page-head">
-            <span class="eyebrow">YOUR WORKSPACE</span>
-            <h1>Recent activity</h1>
-            <p>Your latest tool sessions are saved locally in this browser.</p>
-          </div>
-          <div class="recent-list" id="recentList"></div>
-        </div>
-      </main>
-    </div>
-
-    <div class="drawer-backdrop" id="drawerBackdrop"></div>
-    <section class="tool-drawer" id="toolDrawer" aria-hidden="true" aria-label="Tool workspace">
-      <header class="drawer-header">
-        <div>
-          <span class="drawer-icon" id="drawerIcon"><i data-lucide="sparkles"></i></span>
-          <span><strong id="drawerTitle">AI Tool</strong><small id="drawerSubtitle">Create something remarkable</small></span>
-        </div>
-        <div class="drawer-actions">
-          <button class="mini-action chat-only-action" id="newChatButton" type="button">
-            <i data-lucide="plus"></i><span id="newChatLabel">New chat</span>
-          </button>
-          <button class="icon-button chat-only-action" id="exportChatButton" type="button" aria-label="Export chat">
-            <i data-lucide="download"></i>
-          </button>
-          <button class="icon-button" id="closeDrawer" aria-label="Close tool"><i data-lucide="x"></i></button>
-        </div>
-      </header>
-
-      <div class="drawer-body">
-        <div class="ai-workspace workspace-panel" id="aiWorkspace">
-          <div class="assistant-controls">
-            <label>
-              <i data-lucide="languages"></i>
-              <span id="answerLanguageLabel">Answer language</span>
-              <select id="responseLanguageSelect">
-                <option value="auto">Auto detect</option>
-                <option value="my">မြန်မာ</option>
-                <option value="en">English</option>
-                <option value="th">ไทย</option>
-                <option value="zh">中文</option>
-                <option value="ja">日本語</option>
-                <option value="ko">한국어</option>
-                <option value="hi">हिन्दी</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-                <option value="de">Deutsch</option>
-                <option value="ar">العربية</option>
-                <option value="ru">Русский</option>
-              </select>
-            </label>
-            <label>
-              <i data-lucide="book-open-check"></i>
-              <span id="knowledgeModeLabel">World knowledge</span>
-              <select id="knowledgeModeSelect">
-                <option value="auto">Auto</option>
-                <option value="always">Always search</option>
-                <option value="off">Local AI only</option>
-              </select>
-            </label>
-            <label>
-              <i data-lucide="brain"></i>
-              <span id="memoryModeLabel">Chat memory</span>
-              <select id="memoryModeSelect">
-                <option value="on">On</option>
-                <option value="off">Off</option>
-              </select>
-            </label>
-          </div>
-          <div class="local-model-bar" id="localModelBar">
-            <span class="model-state-icon"><i data-lucide="cpu"></i></span>
-            <span>
-              <strong id="localModelStatus">Free AI model ready to load</strong>
-              <small id="localModelDetail">First use downloads the model once, then it stays cached on this device.</small>
-              <span class="model-progress"><i id="localModelProgress"></i></span>
+        <div class="nav-actions">
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light mode">
+            <span class="theme-toggle-track" aria-hidden="true">
+              <span class="theme-toggle-thumb"></span>
             </span>
-            <button type="button" id="loadModelButton">Load model</button>
-          </div>
-          <div class="chat-stream" id="chatStream">
-            <div class="welcome-message">
-              <span><i data-lucide="sparkles"></i></span>
-              <h3 id="welcomeTitle">How can I help?</h3>
-              <p id="welcomeCopy">Share a question, rough idea, or task. I’ll help you move it forward.</p>
-            </div>
-          </div>
-          <div class="quick-prompts" id="quickPrompts">
-            <button type="button" data-quick-prompt="ဒီနေ့အတွက် အရေးကြီးဆုံးအလုပ်တွေကို အစီအစဉ်ဆွဲပေးပါ">နေ့စဉ်အစီအစဉ်</button>
-            <button type="button" data-quick-prompt="ဒီအကြောင်းကို အလွယ်ဆုံးနည်းနဲ့ သင်ပေးပါ: ">လွယ်လွယ်သင်ပေး</button>
-            <button type="button" data-quick-prompt="ဒီစာကို ရှင်းလင်းတဲ့ မြန်မာဘာသာနဲ့ ပြန်ရေးပေးပါ: ">မြန်မာလိုပြန်ရေး</button>
-            <button type="button" data-quick-prompt="အချက်အလက်မှန်ကန်တဲ့ source တွေနဲ့ ရှာဖွေဖြေပေးပါ: ">Source နဲ့ရှာ</button>
-          </div>
-          <form class="composer" id="aiForm">
-            <textarea id="aiPrompt" rows="3" placeholder="Ask anything..."></textarea>
-            <div>
-              <span id="modeLabel"><i data-lucide="cpu"></i> Free local AI</span>
-              <button type="submit" aria-label="Send prompt"><i data-lucide="arrow-up"></i></button>
-            </div>
-          </form>
-        </div>
-
-        <div class="photo-workspace workspace-panel hidden" id="photoWorkspace">
-          <label class="drop-zone" id="photoDrop">
-            <input id="photoInput" type="file" accept="image/*" />
-            <i data-lucide="image-up"></i>
-            <strong>Drop a photo here</strong>
-            <span>or click to browse • JPG, PNG, WEBP</span>
-          </label>
-          <div class="editor-stage hidden" id="photoStage">
-            <div class="canvas-wrap"><canvas id="photoCanvas"></canvas></div>
-            <div class="editor-controls">
-              <label>Brightness <output id="brightnessValue">100</output><input id="brightness" type="range" min="0" max="200" value="100" /></label>
-              <label>Contrast <output id="contrastValue">100</output><input id="contrast" type="range" min="0" max="200" value="100" /></label>
-              <label>Saturation <output id="saturationValue">100</output><input id="saturation" type="range" min="0" max="200" value="100" /></label>
-              <label>Blur <output id="blurValue">0</output><input id="blur" type="range" min="0" max="12" value="0" /></label>
-              <div class="control-buttons">
-                <button id="rotatePhoto" type="button"><i data-lucide="rotate-cw"></i> Rotate</button>
-                <button id="monoPhoto" type="button"><i data-lucide="circle-dot-dashed"></i> Mono</button>
-                <button id="resetPhoto" type="button"><i data-lucide="undo-2"></i> Reset</button>
-              </div>
-              <button class="export-button" id="downloadPhoto" type="button"><i data-lucide="download"></i> Download PNG</button>
-              <button class="replace-button" id="replacePhoto" type="button">Choose another photo</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="video-workspace workspace-panel hidden" id="videoWorkspace">
-          <label class="drop-zone" id="videoDrop">
-            <input id="videoInput" type="file" accept="video/*" />
-            <i data-lucide="file-video"></i>
-            <strong>Drop a video here</strong>
-            <span>or click to browse • MP4, MOV, WEBM</span>
-          </label>
-          <div class="editor-stage video-stage hidden" id="videoStage">
-            <div class="video-wrap"><video id="videoPreview" controls playsinline></video></div>
-            <div class="editor-controls">
-              <div class="time-row">
-                <label>Start (sec)<input id="trimStart" type="number" min="0" step="0.1" value="0" /></label>
-                <label>End (sec)<input id="trimEnd" type="number" min="0" step="0.1" value="0" /></label>
-              </div>
-              <label>Playback speed
-                <select id="videoSpeed">
-                  <option value="0.5">0.5×</option>
-                  <option value="0.75">0.75×</option>
-                  <option value="1" selected>1× Normal</option>
-                  <option value="1.25">1.25×</option>
-                  <option value="1.5">1.5×</option>
-                  <option value="2">2×</option>
-                </select>
-              </label>
-              <label class="check-control"><input id="videoMute" type="checkbox" /> Remove audio</label>
-              <button class="preview-button" id="previewTrim" type="button"><i data-lucide="play"></i> Preview selection</button>
-              <button class="export-button" id="exportVideo" type="button"><i data-lucide="download"></i> Export WebM clip</button>
-              <p class="editor-note">Browser export records the selected section in real time. Keep this tab active.</p>
-              <button class="replace-button" id="replaceVideo" type="button">Choose another video</button>
-            </div>
-          </div>
+            <span class="theme-toggle-label">Dark</span>
+          </button>
+          <a
+            class="button button-gold nav-download"
+            href="assets/documents/thazin-mg-mg-htwe-cv.pdf"
+            download="Thazin-Mg-Mg-Htwe-CV.pdf"
+            data-cv-download
+          >
+            <span class="button-icon" aria-hidden="true">↓</span>
+            <span>Download CV</span>
+          </a>
         </div>
       </div>
-    </section>
+      <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
+    </header>
 
-    <div class="setup-modal" id="setupModal" aria-hidden="true">
-      <div class="modal-card">
-        <button class="icon-button modal-close" id="closeSetup" aria-label="Close"><i data-lucide="x"></i></button>
-        <span class="modal-icon"><i data-lucide="cpu"></i></span>
-        <h2>Free AI, on your device</h2>
-        <p>Nova downloads a small open-source model and runs it inside your browser. Your prompts stay on your device and there is no per-message fee.</p>
-        <ul class="setup-points">
-          <li><i data-lucide="wifi"></i><span>Internet is needed for the first model download.</span></li>
-          <li><i data-lucide="hard-drive-download"></i><span>Allow about 190 MB on iPhone or 350 MB on desktop/Android.</span></li>
-          <li><i data-lucide="smartphone"></i><span>Newer Chrome, Edge, or Safari devices work best.</span></li>
-        </ul>
-        <p class="model-disclaimer">“Unlimited” means Nova does not meter messages. Speed and capacity still depend on your phone or computer.</p>
-        <button class="primary-button" id="gotItButton"><i data-lucide="download"></i> Download free AI model</button>
+    <main id="main">
+      <section class="hero" id="home">
+        <div class="hero-media" aria-hidden="true">
+          <img src="assets/images/thazin-cover.jpg" alt="" width="1672" height="941" />
+        </div>
+        <div class="hero-shade"></div>
+        <div class="page-width hero-layout">
+          <div class="hero-copy reveal">
+            <p class="eyebrow"><span></span> Portfolio 2026</p>
+            <h1>Thazin Mg Mg Htwe</h1>
+            <p class="hero-role">Graphic Designer</p>
+            <p class="hero-summary">
+              Creative and motivated designer creating polished digital and print visuals for events,
+              social media, branding, photography, and motion-friendly promotional work.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-gold" href="#cv">
+                <span class="button-icon" aria-hidden="true">▣</span>
+                <span>View CV</span>
+              </a>
+              <a class="button button-glass" href="#contact">
+                <span class="button-icon" aria-hidden="true">↗</span>
+                <span>Contact</span>
+              </a>
+            </div>
+          </div>
+
+          <aside class="hero-panel reveal" style="--delay: 120ms" aria-label="Designer highlights">
+            <p>Based in design, print, and digital media</p>
+            <div class="metric-row">
+              <strong>2024-2025</strong>
+              <span>Junior Graphic Designer</span>
+            </div>
+            <div class="metric-row">
+              <strong>7</strong>
+              <span>Creative software tools</span>
+            </div>
+            <div class="metric-row">
+              <strong>2</strong>
+              <span>Languages</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="ticker" aria-label="Creative services">
+        <div class="ticker-track">
+          <span>Digital Design</span>
+          <i></i>
+          <span>Print Materials</span>
+          <i></i>
+          <span>Illustration</span>
+          <i></i>
+          <span>Photography</span>
+          <i></i>
+          <span>Video Editing</span>
+          <i></i>
+          <span>Motion Graphics</span>
+          <i></i>
+          <span>Branding</span>
+          <i></i>
+          <span>Social Media</span>
+          <i></i>
+          <span>Digital Design</span>
+          <i></i>
+          <span>Print Materials</span>
+          <i></i>
+          <span>Illustration</span>
+          <i></i>
+          <span>Photography</span>
+          <i></i>
+          <span>Video Editing</span>
+        </div>
+      </section>
+
+      <section class="section about" id="about">
+        <div class="page-width about-grid">
+          <div class="section-heading reveal">
+            <p class="eyebrow"><span></span> About</p>
+            <h2>Design with clean structure, warm detail, and a premium finish.</h2>
+          </div>
+          <div class="about-copy reveal" style="--delay: 100ms">
+            <p class="lead">
+              Thazin Mg Mg Htwe is a graphic designer with hands-on experience in wedding posters,
+              invitations, social media graphics, event photo editing, and promotional video editing.
+            </p>
+            <p>
+              Her work style combines layout composition, visual hierarchy, color matching, typography
+              basics, and client communication to produce meaningful visuals across digital and print media.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section showcase-section" id="showcase">
+        <div class="page-width">
+          <div class="showcase-heading reveal">
+            <div class="section-heading narrow">
+              <p class="eyebrow"><span></span> Design Showcase</p>
+              <h2>Selected design work grouped by creative type.</h2>
+            </div>
+            <p>
+              A visual archive of poster, branding, typography, illustration, photo editing, and practice work
+              from Thazin's design collection.
+            </p>
+          </div>
+
+          <div class="showcase-toolbar reveal" style="--delay: 80ms">
+            <div class="showcase-tabs" id="showcaseTabs" aria-label="Showcase categories"></div>
+            <p class="showcase-count" id="showcaseCount">Loading showcase</p>
+          </div>
+
+          <div class="showcase-grid" id="showcaseGrid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="section work" id="work">
+        <div class="page-width">
+          <div class="section-heading narrow reveal">
+            <p class="eyebrow"><span></span> Work Experience</p>
+            <h2>Practical design experience for event-focused creative work.</h2>
+          </div>
+
+          <div class="experience-layout">
+            <article class="experience-card reveal">
+              <div class="experience-date">2024 - 2025</div>
+              <div class="experience-content">
+                <p class="kicker">Cattleya Wedding Planning</p>
+                <h3>Junior Graphic Designer</h3>
+                <ul>
+                  <li>Designed wedding posters, invitations, and social media graphics.</li>
+                  <li>Edited photos and promotional videos for events.</li>
+                  <li>Communicated with clients to create customized designs based on their needs.</li>
+                </ul>
+              </div>
+            </article>
+
+            <div class="creative-strip reveal" style="--delay: 120ms">
+              <div>
+                <span>01</span>
+                <strong>Digital & Print</strong>
+                <p>Posters, invitations, social graphics, and event visuals.</p>
+              </div>
+              <div>
+                <span>02</span>
+                <strong>Photo & Video</strong>
+                <p>Retouching, promotional edits, short-form content, and motion graphics.</p>
+              </div>
+              <div>
+                <span>03</span>
+                <strong>Client Needs</strong>
+                <p>Customized creative direction built around each brief.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section split-section" id="skills">
+        <div class="page-width split-grid">
+          <div class="section-heading sticky-heading reveal">
+            <p class="eyebrow"><span></span> Skills</p>
+            <h2>Visual design skills with a broad creative toolset.</h2>
+            <p>
+              A balanced foundation across design, illustration, photo, video, and hand-drawn creative work.
+            </p>
+          </div>
+
+          <div class="skills-stack">
+            <section class="skill-block reveal" aria-labelledby="professionalSkills">
+              <h3 id="professionalSkills">Professional Skills</h3>
+              <div class="pill-grid">
+                <span>Graphic Design</span>
+                <span>Digital & Print</span>
+                <span>Illustration</span>
+                <span>Photography</span>
+                <span>Video Editing</span>
+                <span>Hand Sketching</span>
+                <span>Painting</span>
+              </div>
+            </section>
+
+            <section class="skill-block reveal" style="--delay: 80ms" aria-labelledby="softwareTools">
+              <h3 id="softwareTools">Software</h3>
+              <div class="tool-grid">
+                <span><b>Ps</b>Adobe Photoshop</span>
+                <span><b>Ai</b>Adobe Illustrator</span>
+                <span><b>Pr</b>Premiere Pro</span>
+                <span><b>Ae</b>After Effects</span>
+                <span><b>3D</b>Blender</span>
+                <span><b>Cv</b>Canva</span>
+                <span><b>Cc</b>CapCut</span>
+              </div>
+            </section>
+
+            <section class="skill-block reveal" style="--delay: 120ms" aria-labelledby="designTechniques">
+              <h3 id="designTechniques">Design Techniques</h3>
+              <div class="technique-list">
+                <p><span>Layout</span>Composition and visual hierarchy</p>
+                <p><span>Style</span>Color matching and typography basics</p>
+                <p><span>Output</span>Social media, print materials, and branding</p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="section credentials">
+        <div class="page-width credentials-grid">
+          <section class="credential-block reveal" aria-labelledby="educationTitle">
+            <p class="eyebrow"><span></span> Education</p>
+            <h2 id="educationTitle">Current design studies with a strong academic base.</h2>
+            <div class="timeline">
+              <article>
+                <span>Current</span>
+                <h3>Rangsit University - College of Design</h3>
+                <p>Second Year, Creative Product Design</p>
+              </article>
+              <article>
+                <span>2024</span>
+                <h3>Yadanarbon University</h3>
+                <p>Second Year, History</p>
+              </article>
+              <article>
+                <span>2016</span>
+                <h3>High School</h3>
+              </article>
+            </div>
+          </section>
+
+          <section class="credential-block reveal" style="--delay: 100ms" aria-labelledby="certificatesTitle">
+            <p class="eyebrow"><span></span> Certificates</p>
+            <h2 id="certificatesTitle">Certificates and language abilities.</h2>
+            <div class="certificate-list">
+              <p>Diploma in English (MUFL) - 2019</p>
+              <p>Advanced Computer Certificate (MUFL)</p>
+              <p>LCCI Certificate of Competence Level 1, 2 & 3</p>
+            </div>
+            <div class="language-bars" aria-label="Languages">
+              <div>
+                <span>Burmese</span>
+                <strong>Native</strong>
+                <i style="--level: 100%"></i>
+              </div>
+              <div>
+                <span>English</span>
+                <strong>Intermediate</strong>
+                <i style="--level: 66%"></i>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section cv-section" id="cv">
+        <div class="page-width cv-grid">
+          <div class="cv-preview reveal">
+            <img
+              src="assets/images/thazin-cv-preview.jpg"
+              alt="Thazin Mg Mg Htwe CV preview"
+              width="1103"
+              height="1426"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="cv-copy reveal" style="--delay: 120ms">
+            <p class="eyebrow"><span></span> Download CV</p>
+            <h2>Download the complete CV PDF.</h2>
+            <p>
+              The CV includes personal information, profile summary, work experience, education,
+              certificates, languages, professional skills, software, design techniques, and interests.
+            </p>
+            <div class="cv-actions">
+              <a
+                class="button button-gold"
+                href="assets/documents/thazin-mg-mg-htwe-cv.pdf"
+                download="Thazin-Mg-Mg-Htwe-CV.pdf"
+                data-cv-download
+              >
+                <span class="button-icon" aria-hidden="true">↓</span>
+                <span>Download CV</span>
+              </a>
+              <a class="button button-outline" href="assets/documents/thazin-mg-mg-htwe-cv.pdf" target="_blank" rel="noreferrer">
+                <span class="button-icon" aria-hidden="true">↗</span>
+                <span>Open PDF</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div class="page-width contact-grid">
+          <div class="contact-copy reveal">
+            <p class="eyebrow"><span></span> Contact</p>
+            <h2>Available for visual design, social media, print, and event creative work.</h2>
+            <p>
+              Passionate about learning new design techniques and improving creative skills to produce
+              visually appealing and meaningful designs.
+            </p>
+          </div>
+
+          <div class="contact-panel reveal" style="--delay: 120ms">
+            <a href="tel:+66613504180">
+              <span>Phone</span>
+              <strong>061 350 4180</strong>
+            </a>
+            <a href="mailto:thazinmgmghtwe142@gmail.com">
+              <span>Email</span>
+              <strong>thazinmgmghtwe142@gmail.com</strong>
+            </a>
+            <a href="https://line.me/ti/p/@thazinmgmghtwe" target="_blank" rel="noreferrer">
+              <span>Line ID</span>
+              <strong>@thazinmgmghtwe</strong>
+            </a>
+            <button id="copyEmail" type="button">
+              <span>Copy Email</span>
+              <strong>Ready</strong>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width">
+        <p>© <span id="year">2026</span> Thazin Mg Mg Htwe</p>
+        <a href="#home">Back to top ↑</a>
       </div>
+    </footer>
+
+    <dialog class="showcase-dialog" id="showcaseDialog" aria-labelledby="showcaseDialogTitle">
+      <button class="showcase-dialog-close" id="showcaseDialogClose" type="button" aria-label="Close showcase preview">×</button>
+      <button class="showcase-dialog-arrow showcase-dialog-prev" id="showcaseDialogPrev" type="button" aria-label="Previous design">←</button>
+      <figure>
+        <img id="showcaseDialogImage" alt="" />
+        <figcaption>
+          <span id="showcaseDialogCategory"></span>
+          <strong id="showcaseDialogTitle"></strong>
+        </figcaption>
+      </figure>
+      <button class="showcase-dialog-arrow showcase-dialog-next" id="showcaseDialogNext" type="button" aria-label="Next design">→</button>
+    </dialog>
+
+    <div class="download-toast" id="downloadToast" role="status" aria-live="polite" aria-atomic="true">
+      <span class="download-icon" aria-hidden="true">↓</span>
+      <span>
+        <strong>CV download started</strong>
+        <small>Thazin-Mg-Mg-Htwe-CV.pdf</small>
+      </span>
     </div>
-
-    <div class="toast" id="toast"><i data-lucide="check-circle-2"></i><span>Done</span></div>
   </body>
 </html>
